@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30509.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineMobileRechargeService.WebApp", "OnlineMobileRechargeService.WebApp\OnlineMobileRechargeService.WebApp.csproj", "{F7CC9AB1-97B1-4338-B36C-D8F3E55FEF2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineMobileRechargeService.Data", "OnlineMobileRechargeService.Data\OnlineMobileRechargeService.Data.csproj", "{601A49B0-63BF-49E4-B2F6-D189F974A54B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineMobileRechargeService.Application", "OnlineMobileRechargeService.Application\OnlineMobileRechargeService.Application.csproj", "{11BD5B30-5873-401E-AD02-8026F6E32935}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F7CC9AB1-97B1-4338-B36C-D8F3E55FEF2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7CC9AB1-97B1-4338-B36C-D8F3E55FEF2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7CC9AB1-97B1-4338-B36C-D8F3E55FEF2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7CC9AB1-97B1-4338-B36C-D8F3E55FEF2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{601A49B0-63BF-49E4-B2F6-D189F974A54B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{601A49B0-63BF-49E4-B2F6-D189F974A54B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{601A49B0-63BF-49E4-B2F6-D189F974A54B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{601A49B0-63BF-49E4-B2F6-D189F974A54B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11BD5B30-5873-401E-AD02-8026F6E32935}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11BD5B30-5873-401E-AD02-8026F6E32935}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11BD5B30-5873-401E-AD02-8026F6E32935}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11BD5B30-5873-401E-AD02-8026F6E32935}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4C1AAFC3-3671-4629-956A-DA65C94D8547}
+	EndGlobalSection
+EndGlobal
