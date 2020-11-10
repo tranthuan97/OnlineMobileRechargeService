@@ -6,5 +6,5 @@
 - Entity Framework Core tools
 - Entity Framework Core Design
 - Entity Framework Core Sql Server
-Contact
+## Contact
 Email: tranthuan0406@gmail.com
