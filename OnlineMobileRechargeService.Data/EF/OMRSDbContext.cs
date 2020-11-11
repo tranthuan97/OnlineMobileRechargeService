@@ -5,8 +5,10 @@ using System.Text;
 
 namespace OnlineMobileRechargeService.Data.EF
 {
-    class OMRSDbContext:DbContext
+    class OMRSDbContext : DbContext
     {
-
+        public OMRSDbContext( DbContextOptions options) : base(options)
+        {
+        }
     }
 }
