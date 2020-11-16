@@ -12,5 +12,6 @@ namespace OnlineMobileRechargeService.Data.Entities
         public string Status { get; set; }
 
         public List<ModeInCategory> ModeInCategories { get; set; }
+        public List<DNDTransaction> DNDTransactions { get; set; }
     }
 }

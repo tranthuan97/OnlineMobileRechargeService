@@ -4,7 +4,7 @@ using System.Text;
 
 namespace OnlineMobileRechargeService.Data.Entities
 {
-    class FeedBack
+    public class FeedBack
     {
         public int Id { get; set; }
         public string FullName { get; set; }

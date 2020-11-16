@@ -10,6 +10,9 @@ namespace OnlineMobileRechargeService.Data.Entities
         public string Name { get; set; }
         public int OperatorId { get; set; }
 
-        public Operator Operator { get; set; }
+        public List<VASInOperator> VASInOperators { get; set; }
+        public List<Plan> Plans { get; set; }
+        public List<Transaction> Transactions { get; set; }
+
     }
 }

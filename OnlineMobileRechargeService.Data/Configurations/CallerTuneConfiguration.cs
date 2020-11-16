@@ -7,18 +7,16 @@ using System.Text;
 
 namespace OnlineMobileRechargeService.Data.Configurations
 {
-    public class OperatorConfiguration : IEntityTypeConfiguration<Operator>
+    public class CallerTuneConfiguration : IEntityTypeConfiguration<CallerTune>
     {
-        public void Configure(EntityTypeBuilder<Operator> builder)
+        public void Configure(EntityTypeBuilder<CallerTune> builder)
         {
-            builder.ToTable("Operators");
+            builder.ToTable("CallerTunes");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
-
             builder.Property(x => x.Name).IsRequired();
-            builder.Property(x => x.Logo).IsRequired();
-
-
+            builder.Property(x => x.Singer).IsRequired();
+            builder.Property(x => x.Image).IsRequired();
 
         }
     }

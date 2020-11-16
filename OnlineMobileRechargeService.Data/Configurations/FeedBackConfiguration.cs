@@ -7,18 +7,15 @@ using System.Text;
 
 namespace OnlineMobileRechargeService.Data.Configurations
 {
-    public class OperatorConfiguration : IEntityTypeConfiguration<Operator>
+    public class FeedBackConfiguration : IEntityTypeConfiguration<FeedBack>
     {
-        public void Configure(EntityTypeBuilder<Operator> builder)
+        public void Configure(EntityTypeBuilder<FeedBack> builder)
         {
-            builder.ToTable("Operators");
+            builder.ToTable("FeedBacks");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
-
-            builder.Property(x => x.Name).IsRequired();
-            builder.Property(x => x.Logo).IsRequired();
-
-
+            builder.Property(x => x.FullName).IsRequired();
+            builder.Property(x => x.Content).IsRequired();
 
         }
     }

@@ -14,5 +14,8 @@ namespace OnlineMobileRechargeService.Data.Entities
 
         //khai bao de tao khoa ngoai
         public List<Offer> Offers { get; set; }
+        public List<VASInOperator> VASInOperators { get; set; }
+        public List<Plan> Plans{ get; set; }
+        public List<Transaction> Transactions { get; set; }
     }
 }

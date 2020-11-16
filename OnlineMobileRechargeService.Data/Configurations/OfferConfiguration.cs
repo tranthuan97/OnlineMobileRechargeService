@@ -7,7 +7,7 @@ using System.Text;
 
 namespace OnlineMobileRechargeService.Data.Configurations
 {
-    class OfferConfiguration : IEntityTypeConfiguration<Offer>
+    public class OfferConfiguration : IEntityTypeConfiguration<Offer>
     {
         public void Configure(EntityTypeBuilder<Offer> builder)
         {

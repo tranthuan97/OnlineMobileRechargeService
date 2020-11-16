@@ -7,18 +7,14 @@ using System.Text;
 
 namespace OnlineMobileRechargeService.Data.Configurations
 {
-    public class OperatorConfiguration : IEntityTypeConfiguration<Operator>
+    public class SimTypeConfiguration : IEntityTypeConfiguration<SimType>
     {
-        public void Configure(EntityTypeBuilder<Operator> builder)
+        public void Configure(EntityTypeBuilder<SimType> builder)
         {
-            builder.ToTable("Operators");
+            builder.ToTable("SimTypes");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
-
             builder.Property(x => x.Name).IsRequired();
-            builder.Property(x => x.Logo).IsRequired();
-
-
 
         }
     }

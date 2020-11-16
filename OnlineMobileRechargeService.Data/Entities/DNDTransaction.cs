@@ -7,12 +7,21 @@ namespace OnlineMobileRechargeService.Data.Entities
     public class DNDTransaction
     {
         public int Id { get; set; }
-        public int UserId { get; set; }
-        public int CategoryName { get; set; }
-        public int ModeName { get; set; }
-        public int StartDate { get; set; }
-        public int EndDate { get; set; }
-        public int CreatedDate { get; set; }
-        public int Status { get; set; }
+        public Guid UserId { get; set; }
+        public int DNDCategoryId { get; set; }
+        public int DNDModeId { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string Status { get; set; }
+        public string Description { get; set; }
+
+        public AppUser AppUser{ get; set; }
+        public DNDCategory DNDCategory { get; set; }
+        public DNDMode DNDMode { get; set; }
+
+
+
+
     }
 }
