@@ -7,7 +7,7 @@ namespace OnlineMobileRechargeService.Data.Entities
     public class DNDTransaction
     {
         public int Id { get; set; }
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
         public int DNDCategoryId { get; set; }
         public int DNDModeId { get; set; }
         public DateTime StartDate { get; set; }

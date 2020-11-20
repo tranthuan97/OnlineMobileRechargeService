@@ -5,9 +5,9 @@ using System.Text;
 
 namespace OnlineMobileRechargeService.Data.Entities
 {
-    public class AppRole : IdentityRole<Guid>
+    public class AppRole
     {
-        public int Level { get; set; }
-        public int Description { get; set; }
+        public const string Admin = "Admin";
+        public const string User = "User";
     }
 }

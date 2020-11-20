@@ -5,14 +5,15 @@ using System.Text;
 
 namespace OnlineMobileRechargeService.Data.Entities
 {
-    public class AppUser:IdentityUser<Guid>
+    public class AppUser
     {
-        public int FullName { get; set; }
-        public string Address { get; set; }
-        public int Age { get; set; }
-        public string Gender { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public string Status { get; set; }
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Role { get; set; }
+        public string Token { get; set; }
 
         public List<UserInPlan> UserInPlans { get; set; }
         public List<Transaction> Transactions{ get; set; }

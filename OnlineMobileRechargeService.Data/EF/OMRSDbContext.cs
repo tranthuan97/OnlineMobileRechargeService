@@ -10,10 +10,23 @@ using System.Text;
 namespace OnlineMobileRechargeService.Data.EF
 {
     //Extend Dbcontext to create database
-    class OMRSDbContext : IdentityDbContext<AppUser, AppRole, Guid>
+    public class OMRSDbContext : DbContext
     {
         public OMRSDbContext(DbContextOptions options) : base(options)
         {
+        }
+
+        public OMRSDbContext()
+        {
+        }
+
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=.;Database=OMRSDb;Trusted_Connection=True;");
+            }
         }
 
         //Override method OnModelCreating
@@ -43,22 +56,12 @@ namespace OnlineMobileRechargeService.Data.EF
             modelBuilder.ApplyConfiguration(new VASConfiguration());
             modelBuilder.ApplyConfiguration(new VASInOperatorConfiguration());
 
-            modelBuilder.ApplyConfiguration(new AppRoleConfiguration());
             modelBuilder.ApplyConfiguration(new AppUserConfiguration());
-
-            // cấu hình identity
-            modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
-            modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });
-            modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("AppUserLogins").HasKey(x => x.UserId);
-
-            modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable("AppRoleClaims");
-            modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => x.UserId);
-
             //base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<AppConfig> AppConfigs { get; set; }
-
+        public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<CallerTune> CallerTunes { get; set; }
         public DbSet<ContactUs> ContactUs { get; set; }
         public DbSet<CustomerCareNumber> CustomerCareNumbers { get; set; }
@@ -73,7 +76,7 @@ namespace OnlineMobileRechargeService.Data.EF
         public DbSet<Plan> Plans { get; set; }
         public DbSet<SimType> SimTypes { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<UserInPlan> userInPlans { get; set; }
+        public DbSet<UserInPlan> UserInPlans { get; set; }
         public DbSet<VAS> VAS { get; set; }
         public DbSet<VASInOperator> VASInOperators { get; set; }
     }

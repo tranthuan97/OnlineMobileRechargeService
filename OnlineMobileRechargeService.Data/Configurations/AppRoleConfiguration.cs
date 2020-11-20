@@ -12,7 +12,6 @@ namespace OnlineMobileRechargeService.Data.Configurations
         public void Configure(EntityTypeBuilder<AppRole> builder)
         {
             builder.ToTable("AppRoles");
-
         }
     }
 }

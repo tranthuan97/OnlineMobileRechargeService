@@ -13,10 +13,8 @@ namespace OnlineMobileRechargeService.Data.Configurations
         {
             builder.ToTable("AppUsers");
 
-            builder.Property(x => x.FullName).IsRequired();
-            builder.Property(x => x.Age).IsRequired();
-            builder.Property(x => x.Email).IsRequired();
-            builder.Property(x => x.Gender).IsRequired();
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).UseIdentityColumn();
 
 
         }
