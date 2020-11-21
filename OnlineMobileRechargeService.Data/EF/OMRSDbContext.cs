@@ -6,6 +6,7 @@ using OnlineMobileRechargeService.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace OnlineMobileRechargeService.Data.EF
 {
@@ -79,5 +80,10 @@ namespace OnlineMobileRechargeService.Data.EF
         public DbSet<UserInPlan> UserInPlans { get; set; }
         public DbSet<VAS> VAS { get; set; }
         public DbSet<VASInOperator> VASInOperators { get; set; }
+
+        public Task SaveChangesAsync(AppUser user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
