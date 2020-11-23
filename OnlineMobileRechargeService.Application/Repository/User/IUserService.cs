@@ -14,6 +14,7 @@ namespace OnlineMobileRechargeService.Application.Repository.User
         Task<AppUser> GetById(int id);
 
         Task<bool> DeleteUserById(int id);
+        Task<AppUser> UpdateById(AppUser user);
 
         Task<AppUser> Register(RegisterRequest request, string role);
     }

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using OnlineMobileRechargeService.Application.Helpers;
 using OnlineMobileRechargeService.Application.ViewModels.Users;
 using OnlineMobileRechargeService.Data.EF;
@@ -113,9 +114,46 @@ namespace OnlineMobileRechargeService.Application.Repository.User
             }
         }
 
-        public Task<bool> DeleteUserById(int id)
+        public async Task<bool> DeleteUserById(int id)
         {
-            throw new NotImplementedException();
+            using (var dbContext = new OMRSDbContext())
+            {
+                var appUser = await dbContext.AppUsers.FindAsync(id);
+                if (appUser == null)
+                {
+                    return false;
+                }
+
+                dbContext.AppUsers.Remove(appUser);
+                await dbContext.SaveChangesAsync();
+
+                return true;
+            }
+        }
+
+        public async Task<AppUser> UpdateById(AppUser user)
+        {
+
+            //loi cmnr @@
+
+
+
+            using (var dbContext = new OMRSDbContext())
+            {
+                var appUser = dbContext.AppUsers.AsNoTracking().Where(t => t.Id == user.Id).FirstOrDefault();
+                if (appUser == null)
+                {
+                    return null;
+                }
+
+                appUser = user;
+
+                dbContext.Update(appUser);
+
+                await dbContext.SaveChangesAsync();
+
+                return user;
+            }
         }
     }
 }

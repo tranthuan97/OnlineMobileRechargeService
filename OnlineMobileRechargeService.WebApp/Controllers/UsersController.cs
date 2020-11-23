@@ -49,7 +49,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
         {
             Dictionary<string, Object> data = new Dictionary<string, object>();
             data.Add("status", "SUCCESS");
-            
+
             data.Add("data", null);
             var user = await _userService.Authenticate(request.Username, request.Password);
             if (user == null)
@@ -79,7 +79,8 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             if (user == null)
             {
                 data.Remove("status");
-                data.Add("status", "Username is exist !");
+                data.Add("status", "WARNING");
+                data.Add("message", "Username is exist !");
 
                 return Ok(data);
             }
@@ -99,7 +100,8 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             if (user == null)
             {
                 data.Remove("status");
-                data.Add("status", "Username is exist !");
+                data.Add("status", "WARNING");
+                data.Add("message", "Username is exist !");
 
                 return Ok(data);
             }
@@ -116,20 +118,71 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             return Ok(users);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpPost("GetById")]
+        public async Task<IActionResult> GetById([FromBody] AppUser appUser)
         {
             // only allow admins to access other user records
             //var currentUserId = int.Parse(User.Identity.Name);
             //if (id != currentUserId && !User.IsInRole(AppRole.Admin))
             //    return Forbid();
 
-            var user = await _userService.GetById(id);
+            var user = await _userService.GetById(appUser.Id);
 
             if (user == null)
                 return NotFound();
 
             return Ok(user);
+        }
+
+        [HttpPost("DeleteById")]
+        public async Task<IActionResult> DeleteById([FromBody] AppUser appUser)
+        {
+            Dictionary<string, Object> data = new Dictionary<string, object>();
+            data.Add("status", "SUCCESS");
+            data.Add("data", null);
+
+            var delete = await _userService.DeleteUserById(appUser.Id);
+
+            if (delete)
+            {
+                data.Add("message", "Delete user is successful !");
+
+                return Ok(data);
+            }
+            data.Remove("status");
+            data.Add("status", "WARNING");
+            data.Add("message", "Delete user is failed !");
+
+
+            return Ok(data);
+        }
+
+        [HttpPost("UpdateById")]
+        public async Task<IActionResult> UpdateById([FromBody] AppUser appUser)
+        {
+            Dictionary<string, Object> data = new Dictionary<string, object>();
+            data.Add("status", "SUCCESS");
+            data.Add("data", null);
+
+            var user = await _userService.UpdateById(appUser);
+
+            if (user == null)
+            {
+
+                data.Remove("status");
+                data.Add("status", "WARNING");
+                data.Add("message", "Update user is failed !");
+
+
+                return Ok(data);
+            }
+
+            data.Remove("data");
+            data.Add("data", user);
+            data.Add("message", "Update user is successful !");
+
+
+            return Ok(data);
         }
     }
 }
