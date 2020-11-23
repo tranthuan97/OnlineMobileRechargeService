@@ -9,10 +9,12 @@ namespace OnlineMobileRechargeService.Application.Repository.User
 {
     public interface IUserService
     {
-        AppUser Authenticate(string username, string password);
-        IEnumerable<AppUser> GetAll();
-        AppUser GetById(int id);
+        Task<AppUser> Authenticate(string username, string password);
+        Task<IEnumerable<AppUser>> GetAll();
+        Task<AppUser> GetById(int id);
 
-        Task<bool> Register(RegisterRequest request);
+        Task<bool> DeleteUserById(int id);
+
+        Task<AppUser> Register(RegisterRequest request, string role);
     }
 }

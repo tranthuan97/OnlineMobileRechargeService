@@ -32,11 +32,11 @@ namespace OnlineMobileRechargeService.Application.Repository.User
             _appSettings = appSettings.Value;
         }
 
-        public AppUser Authenticate(string username, string password)
+        public async Task<AppUser> Authenticate(string username, string password)
         {
             using (var dbContext = new OMRSDbContext())
             {
-                AppUser user = dbContext.AppUsers.FirstOrDefault(x => x.Username == username && x.Password == password);
+                AppUser user = await dbContext.AppUsers.FirstOrDefaultAsync(x => x.Username == username && x.Password == password);
 
                 // return null if user not found
                 if (user == null)
@@ -52,36 +52,68 @@ namespace OnlineMobileRechargeService.Application.Repository.User
                     new Claim(ClaimTypes.Name, user.Id.ToString()),
                     new Claim(ClaimTypes.Role, user.Role)
                     }),
-                    Expires = DateTime.UtcNow.AddDays(7),
+                    Expires = DateTime.UtcNow.AddMinutes(1),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptor);
-                user.Token = tokenHandler.WriteToken(token);
+                //if (user.Token == "")
+                //{
+                //    user.Token = tokenHandler.WriteToken(token);
 
+                //}
+                user.Token = tokenHandler.WriteToken(token);
                 return user.WithoutPassword();
             }
         }
 
-        public IEnumerable<AppUser> GetAll()
+        public async Task<IEnumerable<AppUser>> GetAll()
         {
             using (var dbContext = new OMRSDbContext())
             {
-                return dbContext.AppUsers.Where(x => x.Role == AppRole.User).ToList();
+                return await dbContext.AppUsers.ToListAsync();
             }
 
         }
 
-        public AppUser GetById(int id)
+        public async Task<AppUser> GetById(int id)
         {
-            using(var dbContext = new OMRSDbContext())
+            using (var dbContext = new OMRSDbContext())
             {
-                var user = dbContext.AppUsers.FirstOrDefault(x => x.Id == id);
+                var user = await dbContext.AppUsers.FirstOrDefaultAsync(x => x.Id == id);
                 return user.WithoutPassword();
             }
         }
 
 
-        public Task<bool> Register(RegisterRequest request)
+        public async Task<AppUser> Register(RegisterRequest request, string role)
+        {
+            using (var dbContext = new OMRSDbContext())
+            {
+                if (request.Password.Equals(request.ConfirmPassword))
+                {
+                    var u = dbContext.AppUsers.FirstOrDefault(x => x.Username == request.UserName && x.Role == "Admin");
+                    if (u != null)
+                    {
+                        return null;
+                    }
+                    var user = new AppUser()
+                    {
+                        Username = request.UserName,
+                        FirstName = request.FirstName,
+                        LastName = request.LastName,
+                        Password = request.Password,
+                        Role = role,
+                    };
+                    Console.WriteLine(user);
+                    dbContext.AppUsers.Add(user);
+                    await dbContext.SaveChangesAsync();
+                    return user;
+                }
+                return null;
+            }
+        }
+
+        public Task<bool> DeleteUserById(int id)
         {
             throw new NotImplementedException();
         }
