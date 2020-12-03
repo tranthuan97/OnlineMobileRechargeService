@@ -22,7 +22,7 @@ using Microsoft.EntityFrameworkCore;
 namespace OnlineMobileRechargeService.WebApp.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize(Roles = AppRole.Admin)]
+    [Authorize]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -62,13 +62,13 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             var value = propertyInfo.GetValue(uTokenObject, null);
             var roleClaim = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Role, StringComparison.InvariantCultureIgnoreCase));
             //User.Claims
-            if(roleClaim != null)
+            if (roleClaim != null)
             {
                 Console.WriteLine(roleClaim);
                 Console.WriteLine(roleClaim.Value);
                 string role = roleClaim.Value;
-                var user = _dbContext.AppUsers.FirstOrDefaultAsync(x => x.Role == role);
-                if(user != null)
+                AppUser user = await _dbContext.AppUsers.FirstOrDefaultAsync(x => x.Role == role);
+                if (user != null)
                 {
                     Console.WriteLine("User is exist !");
                 }
@@ -121,7 +121,70 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             return Ok(data);
         }
 
+
+        [HttpGet("me")]
+        public async Task<IActionResult> getUser()
+        {
+            Dictionary<string, Object> data = new Dictionary<string, object>();
+            data.Add("status", "SUCCESS");
+            data.Add("data", null);
+
+            var claim = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Name, StringComparison.InvariantCultureIgnoreCase));
+            if (claim == null)
+            {
+                data.Remove("status");
+                data.Add("status", "WARNING");
+                data.Add("message", "Invalid token !");
+                return Unauthorized(data);
+            }
+            AppUser user = await _userService.GetById(Int32.Parse(claim.Value));
+            if (user == null)
+            {
+                data.Remove("status");
+                data.Add("status", "WARNING");
+                data.Add("message", "Username is not exist !");
+
+                return BadRequest(data);
+            }
+            data.Remove("data");
+            data.Add("data", user);
+
+            return Ok(data);
+        }
+
+        [HttpPut("me")]
+        public async Task<IActionResult> updateUser([FromBody] AppUser appUser)
+        {
+            Dictionary<string, Object> data = new Dictionary<string, object>();
+            data.Add("status", "SUCCESS");
+            data.Add("data", null);
+
+            var claim = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Name, StringComparison.InvariantCultureIgnoreCase));
+            if (claim == null)
+            {
+                data.Remove("status");
+                data.Add("status", "WARNING");
+                data.Add("message", "Invalid token !");
+                return Unauthorized(data);
+            }
+            AppUser user = await _userService.UpdateById(Int32.Parse(claim.Value), appUser);
+            if (user == null)
+            {
+                data.Remove("status");
+                data.Add("status", "WARNING");
+                data.Add("message", "Username is exist !");
+
+                return Ok(data);
+            }
+            data.Remove("data");
+            data.Add("data", user);
+
+            return Ok(data);
+        }
+
+
         [HttpGet]
+        [Authorize(Roles = AppRole.Admin)]
         public async Task<IActionResult> GetAll()
         {
             var users = await _userService.GetAll();
@@ -146,7 +209,8 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
 
 
 
-        [HttpPost("DeleteById")]
+        [HttpDelete("DeleteById")]
+        [Authorize(Roles = AppRole.Admin)]
         public async Task<IActionResult> DeleteById([FromBody] AppUser appUser)
         {
             Dictionary<string, Object> data = new Dictionary<string, object>();
@@ -169,29 +233,30 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             return Ok(data);
         }
 
-        [HttpPost("UpdateById")]
+        [HttpPut("UpdateById")]
+        [Authorize(Roles = AppRole.Admin)]
         public async Task<IActionResult> UpdateById([FromBody] AppUser appUser)
         {
             Dictionary<string, Object> data = new Dictionary<string, object>();
             data.Add("status", "SUCCESS");
             data.Add("data", null);
 
-            var user = await _userService.UpdateById(appUser);
+            //var user = await _userService.UpdateById(appUser);
 
-            if (user == null)
-            {
+            //if (user == null)
+            //{
 
-                data.Remove("status");
-                data.Add("status", "WARNING");
-                data.Add("message", "Update user is failed !");
+            //    data.Remove("status");
+            //    data.Add("status", "WARNING");
+            //    data.Add("message", "Update user is failed !");
 
 
-                return Ok(data);
-            }
+            //    return Ok(data);
+            //}
 
-            data.Remove("data");
-            data.Add("data", user);
-            data.Add("message", "Update user is successful !");
+            //data.Remove("data");
+            //data.Add("data", user);
+            //data.Add("message", "Update user is successful !");
 
 
             return Ok(data);

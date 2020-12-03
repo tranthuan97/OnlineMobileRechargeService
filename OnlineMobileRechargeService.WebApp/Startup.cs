@@ -64,7 +64,8 @@ namespace OnlineMobileRechargeService.WebApp
                       ValidateIssuerSigningKey = true,
                       IssuerSigningKey = new SymmetricSecurityKey(key),
                       ValidateIssuer = false,
-                      ValidateAudience = false
+                      ValidateAudience = false,
+                      ClockSkew = System.TimeSpan.Zero
                   };
               });
             services.AddTransient<IUserService, UserService>();

@@ -57,7 +57,7 @@ namespace OnlineMobileRechargeService.Application.Repository.User
                     new Claim("Id", user.Id.ToString()),
                     new Claim("Role", user.Role),
                     }),
-                    Expires = DateTime.UtcNow.AddSeconds(15),
+                    Expires = DateTime.UtcNow.AddMinutes(1),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -135,21 +135,22 @@ namespace OnlineMobileRechargeService.Application.Repository.User
             }
         }
 
-        public async Task<AppUser> UpdateById(AppUser user)
+        public async Task<AppUser> UpdateById(int id ,AppUser user)
         {
 
-            //loi cmnr @@
+            //loi cmnr @@s
             using (var dbContext = new OMRSDbContext())
             {
-                var appUser = dbContext.AppUsers.AsNoTracking().Where(t => t.Id == user.Id).FirstOrDefault();
+                var appUser = dbContext.AppUsers.AsNoTracking().Where(t => t.Id == id).FirstOrDefault();
                 if (appUser == null)
                 {
                     return null;
                 }
 
-                appUser = user;
+                appUser.FirstName = user.FirstName;
+                appUser.LastName = user.LastName;
 
-                dbContext.Update(appUser);
+                dbContext.AppUsers.Update(appUser);
 
                 await dbContext.SaveChangesAsync();
 
