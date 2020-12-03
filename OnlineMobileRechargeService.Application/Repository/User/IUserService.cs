@@ -9,7 +9,7 @@ namespace OnlineMobileRechargeService.Application.Repository.User
 {
     public interface IUserService
     {
-        Task<AppUser> Authenticate(string username, string password);
+        Task<string> Authenticate(string username, string password);
         Task<IEnumerable<AppUser>> GetAll();
         Task<AppUser> GetById(int id);
 

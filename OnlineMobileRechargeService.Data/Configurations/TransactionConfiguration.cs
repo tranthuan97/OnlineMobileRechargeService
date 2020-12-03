@@ -19,7 +19,7 @@ namespace OnlineMobileRechargeService.Data.Configurations
             builder.Property(x => x.Price).IsRequired();
 
             builder.HasOne(x => x.AppUser).WithMany(x => x.Transactions).HasForeignKey(x => x.UserId);
-            builder.HasOne(x => x.Operator).WithMany(x => x.Transactions).HasForeignKey(x => x.OperatorId);
+            builder.HasOne(x => x.Provider).WithMany(x => x.Transactions).HasForeignKey(x => x.ProviderId);
             builder.HasOne(x => x.VAS).WithMany(x => x.Transactions).HasForeignKey(x => x.VASId);
         }
     }

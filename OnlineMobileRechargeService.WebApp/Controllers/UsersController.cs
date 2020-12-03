@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OnlineMobileRechargeService.Application.Repository.User;
 using OnlineMobileRechargeService.Application.ViewModels.Users;
+using OnlineMobileRechargeService.Application.Helpers;
 using OnlineMobileRechargeService.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,9 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Security.Claims;
+using OnlineMobileRechargeService.Data.EF;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,25 +27,14 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly OMRSDbContext _dbContext;
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService, OMRSDbContext dbContext)
         {
             _userService = userService;
+            _dbContext = dbContext;
         }
 
-        public string DecodeToken(string token)
-        {
-            if (token == null)
-            {
-                return "";
-            }
-            var stream = token;
-            var handler = new JwtSecurityTokenHandler();
-            var jsonToken = handler.ReadToken(stream);
-            var tokenS = handler.ReadToken(stream) as JwtSecurityToken;
-
-            return tokenS.Claims.First(claim => claim.Type == "role").Value;
-        }
 
         [AllowAnonymous]
         [HttpPost("Authenticate")]
@@ -51,8 +44,8 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             data.Add("status", "SUCCESS");
 
             data.Add("data", null);
-            var user = await _userService.Authenticate(request.Username, request.Password);
-            if (user == null)
+            var userToken = await _userService.Authenticate(request.Username, request.Password);
+            if (userToken == null)
             {
                 //return BadRequest(new { message = "Username or password is incorrect" });
                 data.Remove("status");
@@ -61,9 +54,26 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
                 return Ok(data);
             }
             data.Remove("data");
-            data.Add("data", user);
-
-            Console.WriteLine(DecodeToken(user.Token));
+            data.Add("data", userToken);
+            var uTokenObject = userToken.DecodeToken();
+            Console.WriteLine(uTokenObject);
+            var nameOfProperty = "id";
+            var propertyInfo = uTokenObject.GetType().GetProperty(nameOfProperty);
+            var value = propertyInfo.GetValue(uTokenObject, null);
+            var roleClaim = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Role, StringComparison.InvariantCultureIgnoreCase));
+            //User.Claims
+            if(roleClaim != null)
+            {
+                Console.WriteLine(roleClaim);
+                Console.WriteLine(roleClaim.Value);
+                string role = roleClaim.Value;
+                var user = _dbContext.AppUsers.FirstOrDefaultAsync(x => x.Role == role);
+                if(user != null)
+                {
+                    Console.WriteLine("User is exist !");
+                }
+            }
+            Console.WriteLine(value);
             return Ok(data);
         }
 
@@ -133,6 +143,8 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
 
             return Ok(user);
         }
+
+
 
         [HttpPost("DeleteById")]
         public async Task<IActionResult> DeleteById([FromBody] AppUser appUser)

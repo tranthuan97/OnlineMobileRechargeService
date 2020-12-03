@@ -7,15 +7,15 @@ namespace OnlineMobileRechargeService.Data.Entities
     public class Plan
     {
         public int Id { get; set; }
-        public int Name { get; set; }
-        public int OperatorId { get; set; }
+        public string Name { get; set; }
+        public int ProviderId { get; set; }
         public int VASId { get; set; }
         public int Amount { get; set; }
-        public int Price { get; set; }
+        public decimal Price { get; set; }
         public string Validate { get; set; }
-        public int Description { get; set; }
+        public string Description { get; set; }
 
-        public Operator Operator { get; set; }
+        public Provider Provider { get; set; }
         public VAS VAS { get; set; }
         public List<UserInPlan> UserInPlans { get; set; }
 

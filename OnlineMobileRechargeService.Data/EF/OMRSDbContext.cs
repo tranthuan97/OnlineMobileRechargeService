@@ -47,7 +47,7 @@ namespace OnlineMobileRechargeService.Data.EF
             modelBuilder.ApplyConfiguration(new FeedBackConfiguration());
             modelBuilder.ApplyConfiguration(new ModeInCategoryConfiguration());
             modelBuilder.ApplyConfiguration(new OfferConfiguration());
-            modelBuilder.ApplyConfiguration(new OperatorConfiguration());
+            modelBuilder.ApplyConfiguration(new ProviderConfiguration());
             modelBuilder.ApplyConfiguration(new PBPTransactionConfiguration());
             modelBuilder.ApplyConfiguration(new PlanConfiguration());
 
@@ -55,7 +55,7 @@ namespace OnlineMobileRechargeService.Data.EF
             modelBuilder.ApplyConfiguration(new TransactionConfiguration());
             modelBuilder.ApplyConfiguration(new UserInPlanConfiguration());
             modelBuilder.ApplyConfiguration(new VASConfiguration());
-            modelBuilder.ApplyConfiguration(new VASInOperatorConfiguration());
+            modelBuilder.ApplyConfiguration(new VASInProviderConfiguration());
 
             modelBuilder.ApplyConfiguration(new AppUserConfiguration());
             //base.OnModelCreating(modelBuilder);
@@ -72,18 +72,14 @@ namespace OnlineMobileRechargeService.Data.EF
         public DbSet<FeedBack> FeedBacks { get; set; }
         public DbSet<ModeInCategory> ModeInCategories { get; set; }
         public DbSet<Offer> Offers { get; set; }
-        public DbSet<Operator> Operators { get; set; }
+        public DbSet<Provider> Operators { get; set; }
         public DbSet<PBPTransaction> PBPTransactions { get; set; }
         public DbSet<Plan> Plans { get; set; }
         public DbSet<SimType> SimTypes { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<UserInPlan> UserInPlans { get; set; }
         public DbSet<VAS> VAS { get; set; }
-        public DbSet<VASInOperator> VASInOperators { get; set; }
+        public DbSet<VASInProvider> VASInProviders { get; set; }
 
-        public Task SaveChangesAsync(AppUser user)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

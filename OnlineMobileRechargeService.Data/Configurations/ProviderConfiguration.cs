@@ -7,11 +7,11 @@ using System.Text;
 
 namespace OnlineMobileRechargeService.Data.Configurations
 {
-    public class OperatorConfiguration : IEntityTypeConfiguration<Operator>
+    public class ProviderConfiguration : IEntityTypeConfiguration<Provider>
     {
-        public void Configure(EntityTypeBuilder<Operator> builder)
+        public void Configure(EntityTypeBuilder<Provider> builder)
         {
-            builder.ToTable("Operators");
+            builder.ToTable("Providers");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
 

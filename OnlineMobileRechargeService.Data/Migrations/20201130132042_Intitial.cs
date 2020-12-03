@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OnlineMobileRechargeService.Data.Migrations
 {
-    public partial class Init : Migration
+    public partial class Intitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -129,7 +129,22 @@ namespace OnlineMobileRechargeService.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Operators",
+                name: "PBPTransactions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PhoneNumber = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PBPTransactions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Providers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -140,22 +155,7 @@ namespace OnlineMobileRechargeService.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Operators", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PBPTransactions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PhoneNumber = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PBPTransactions", x => x.Id);
+                    table.PrimaryKey("PK_Providers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -177,8 +177,7 @@ namespace OnlineMobileRechargeService.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OperatorId = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -254,7 +253,7 @@ namespace OnlineMobileRechargeService.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OperatorId = table.Column<int>(type: "int", nullable: false),
+                    ProviderId = table.Column<int>(type: "int", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -263,9 +262,9 @@ namespace OnlineMobileRechargeService.Data.Migrations
                 {
                     table.PrimaryKey("PK_Offers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Offers_Operators_OperatorId",
-                        column: x => x.OperatorId,
-                        principalTable: "Operators",
+                        name: "FK_Offers_Providers_ProviderId",
+                        column: x => x.ProviderId,
+                        principalTable: "Providers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -276,21 +275,21 @@ namespace OnlineMobileRechargeService.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<int>(type: "int", nullable: false),
-                    OperatorId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProviderId = table.Column<int>(type: "int", nullable: false),
                     VASId = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    Price = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Validate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<int>(type: "int", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Plans", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Plans_Operators_OperatorId",
-                        column: x => x.OperatorId,
-                        principalTable: "Operators",
+                        name: "FK_Plans_Providers_ProviderId",
+                        column: x => x.ProviderId,
+                        principalTable: "Providers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -307,7 +306,7 @@ namespace OnlineMobileRechargeService.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OperatorId = table.Column<int>(type: "int", nullable: false),
+                    ProviderId = table.Column<int>(type: "int", nullable: false),
                     SimtypeId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     VASId = table.Column<int>(type: "int", nullable: false),
@@ -325,9 +324,9 @@ namespace OnlineMobileRechargeService.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Transactions_Operators_OperatorId",
-                        column: x => x.OperatorId,
-                        principalTable: "Operators",
+                        name: "FK_Transactions_Providers_ProviderId",
+                        column: x => x.ProviderId,
+                        principalTable: "Providers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -342,16 +341,16 @@ namespace OnlineMobileRechargeService.Data.Migrations
                 name: "VASInOperators",
                 columns: table => new
                 {
-                    OperatorId = table.Column<int>(type: "int", nullable: false),
+                    ProviderId = table.Column<int>(type: "int", nullable: false),
                     VASId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VASInOperators", x => new { x.VASId, x.OperatorId });
+                    table.PrimaryKey("PK_VASInOperators", x => new { x.VASId, x.ProviderId });
                     table.ForeignKey(
-                        name: "FK_VASInOperators_Operators_VASId",
-                        column: x => x.VASId,
-                        principalTable: "Operators",
+                        name: "FK_VASInOperators_Providers_ProviderId",
+                        column: x => x.ProviderId,
+                        principalTable: "Providers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -407,14 +406,14 @@ namespace OnlineMobileRechargeService.Data.Migrations
                 column: "ModeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Offers_OperatorId",
+                name: "IX_Offers_ProviderId",
                 table: "Offers",
-                column: "OperatorId");
+                column: "ProviderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Plans_OperatorId",
+                name: "IX_Plans_ProviderId",
                 table: "Plans",
-                column: "OperatorId");
+                column: "ProviderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Plans_VASId",
@@ -422,9 +421,9 @@ namespace OnlineMobileRechargeService.Data.Migrations
                 column: "VASId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_OperatorId",
+                name: "IX_Transactions_ProviderId",
                 table: "Transactions",
-                column: "OperatorId");
+                column: "ProviderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transactions_UserId",
@@ -440,6 +439,11 @@ namespace OnlineMobileRechargeService.Data.Migrations
                 name: "IX_UserInPlans_PlanId",
                 table: "UserInPlans",
                 column: "PlanId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VASInOperators_ProviderId",
+                table: "VASInOperators",
+                column: "ProviderId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -496,7 +500,7 @@ namespace OnlineMobileRechargeService.Data.Migrations
                 name: "Plans");
 
             migrationBuilder.DropTable(
-                name: "Operators");
+                name: "Providers");
 
             migrationBuilder.DropTable(
                 name: "VAS");

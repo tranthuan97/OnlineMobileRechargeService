@@ -4,10 +4,10 @@ using System.Text;
 
 namespace OnlineMobileRechargeService.Data.Entities
 {
-    public class VASInOperator
+    public class VASInProvider
     {
-        public int OperatorId { get; set; }
-        public Operator Operator { get; set; }
+        public int ProviderId { get; set; }
+        public Provider Provider { get; set; }
         
         public int VASId { get; set; }
         public VAS VAS { get; set; }

@@ -21,7 +21,7 @@ namespace OnlineMobileRechargeService.Data.Configurations
 
 
             //Lien ket khoa ngoai 1-n
-            builder.HasOne(x => x.Operator).WithMany(x => x.Plans).HasForeignKey(x => x.OperatorId);
+            builder.HasOne(x => x.Provider).WithMany(x => x.Plans).HasForeignKey(x => x.ProviderId);
             builder.HasOne(x => x.VAS).WithMany(x => x.Plans).HasForeignKey(x => x.VASId);
 
         }

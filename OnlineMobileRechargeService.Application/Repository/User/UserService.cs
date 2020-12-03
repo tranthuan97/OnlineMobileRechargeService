@@ -12,6 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Http;
+using System.Numerics;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,7 +35,7 @@ namespace OnlineMobileRechargeService.Application.Repository.User
             _appSettings = appSettings.Value;
         }
 
-        public async Task<AppUser> Authenticate(string username, string password)
+        public async Task<string> Authenticate(string username, string password)
         {
             using (var dbContext = new OMRSDbContext())
             {
@@ -51,9 +53,11 @@ namespace OnlineMobileRechargeService.Application.Repository.User
                     Subject = new ClaimsIdentity(new Claim[]
                     {
                     new Claim(ClaimTypes.Name, user.Id.ToString()),
-                    new Claim(ClaimTypes.Role, user.Role)
+                    new Claim(ClaimTypes.Role, user.Role),
+                    new Claim("Id", user.Id.ToString()),
+                    new Claim("Role", user.Role),
                     }),
-                    Expires = DateTime.UtcNow.AddMinutes(1),
+                    Expires = DateTime.UtcNow.AddSeconds(15),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -63,7 +67,7 @@ namespace OnlineMobileRechargeService.Application.Repository.User
 
                 //}
                 user.Token = tokenHandler.WriteToken(token);
-                return user.WithoutPassword();
+                return user.Token;
             }
         }
 
@@ -71,6 +75,7 @@ namespace OnlineMobileRechargeService.Application.Repository.User
         {
             using (var dbContext = new OMRSDbContext())
             {
+                
                 return await dbContext.AppUsers.ToListAsync();
             }
 
@@ -84,7 +89,6 @@ namespace OnlineMobileRechargeService.Application.Repository.User
                 return user.WithoutPassword();
             }
         }
-
 
         public async Task<AppUser> Register(RegisterRequest request, string role)
         {
@@ -135,9 +139,6 @@ namespace OnlineMobileRechargeService.Application.Repository.User
         {
 
             //loi cmnr @@
-
-
-
             using (var dbContext = new OMRSDbContext())
             {
                 var appUser = dbContext.AppUsers.AsNoTracking().Where(t => t.Id == user.Id).FirstOrDefault();

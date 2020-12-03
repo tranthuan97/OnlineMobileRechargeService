@@ -291,17 +291,79 @@ namespace OnlineMobileRechargeService.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OperatorId")
+                    b.Property<int>("ProviderId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OperatorId");
+                    b.HasIndex("ProviderId");
 
                     b.ToTable("Offers");
                 });
 
-            modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.Operator", b =>
+            modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.PBPTransaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PhoneNumber")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PBPTransactions");
+                });
+
+            modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.Plan", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("Amount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ProviderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VASId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Validate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProviderId");
+
+                    b.HasIndex("VASId");
+
+                    b.ToTable("Plans");
+                });
+
+            modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.Provider", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -321,68 +383,7 @@ namespace OnlineMobileRechargeService.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Operators");
-                });
-
-            modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.PBPTransaction", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int>("CreatedDate")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PhoneNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PBPTransactions");
-                });
-
-            modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.Plan", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int>("Amount")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
-                    b.Property<int>("Description")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Name")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OperatorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VASId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Validate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OperatorId");
-
-                    b.HasIndex("VASId");
-
-                    b.ToTable("Plans");
+                    b.ToTable("Providers");
                 });
 
             modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.SimType", b =>
@@ -411,9 +412,6 @@ namespace OnlineMobileRechargeService.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("OperatorId")
-                        .HasColumnType("int");
-
                     b.Property<string>("PaymentCard")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -422,6 +420,9 @@ namespace OnlineMobileRechargeService.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("decimal(18,2)")
                         .HasDefaultValue(0m);
+
+                    b.Property<int>("ProviderId")
+                        .HasColumnType("int");
 
                     b.Property<int>("SimtypeId")
                         .HasColumnType("int");
@@ -434,7 +435,7 @@ namespace OnlineMobileRechargeService.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OperatorId");
+                    b.HasIndex("ProviderId");
 
                     b.HasIndex("UserId");
 
@@ -469,23 +470,22 @@ namespace OnlineMobileRechargeService.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OperatorId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("VAS");
                 });
 
-            modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.VASInOperator", b =>
+            modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.VASInProvider", b =>
                 {
                     b.Property<int>("VASId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OperatorId")
+                    b.Property<int>("ProviderId")
                         .HasColumnType("int");
 
-                    b.HasKey("VASId", "OperatorId");
+                    b.HasKey("VASId", "ProviderId");
+
+                    b.HasIndex("ProviderId");
 
                     b.ToTable("VASInOperators");
                 });
@@ -538,20 +538,20 @@ namespace OnlineMobileRechargeService.Data.Migrations
 
             modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.Offer", b =>
                 {
-                    b.HasOne("OnlineMobileRechargeService.Data.Entities.Operator", "Operator")
+                    b.HasOne("OnlineMobileRechargeService.Data.Entities.Provider", "Provider")
                         .WithMany("Offers")
-                        .HasForeignKey("OperatorId")
+                        .HasForeignKey("ProviderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Operator");
+                    b.Navigation("Provider");
                 });
 
             modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.Plan", b =>
                 {
-                    b.HasOne("OnlineMobileRechargeService.Data.Entities.Operator", "Operator")
+                    b.HasOne("OnlineMobileRechargeService.Data.Entities.Provider", "Provider")
                         .WithMany("Plans")
-                        .HasForeignKey("OperatorId")
+                        .HasForeignKey("ProviderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -561,16 +561,16 @@ namespace OnlineMobileRechargeService.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Operator");
+                    b.Navigation("Provider");
 
                     b.Navigation("VAS");
                 });
 
             modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.Transaction", b =>
                 {
-                    b.HasOne("OnlineMobileRechargeService.Data.Entities.Operator", "Operator")
+                    b.HasOne("OnlineMobileRechargeService.Data.Entities.Provider", "Provider")
                         .WithMany("Transactions")
-                        .HasForeignKey("OperatorId")
+                        .HasForeignKey("ProviderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -588,7 +588,7 @@ namespace OnlineMobileRechargeService.Data.Migrations
 
                     b.Navigation("AppUser");
 
-                    b.Navigation("Operator");
+                    b.Navigation("Provider");
 
                     b.Navigation("VAS");
                 });
@@ -612,21 +612,21 @@ namespace OnlineMobileRechargeService.Data.Migrations
                     b.Navigation("Plan");
                 });
 
-            modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.VASInOperator", b =>
+            modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.VASInProvider", b =>
                 {
-                    b.HasOne("OnlineMobileRechargeService.Data.Entities.Operator", "Operator")
-                        .WithMany("VASInOperators")
-                        .HasForeignKey("VASId")
+                    b.HasOne("OnlineMobileRechargeService.Data.Entities.Provider", "Provider")
+                        .WithMany("VASInProviders")
+                        .HasForeignKey("ProviderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("OnlineMobileRechargeService.Data.Entities.VAS", "VAS")
-                        .WithMany("VASInOperators")
+                        .WithMany("VASInProviders")
                         .HasForeignKey("VASId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Operator");
+                    b.Navigation("Provider");
 
                     b.Navigation("VAS");
                 });
@@ -654,7 +654,12 @@ namespace OnlineMobileRechargeService.Data.Migrations
                     b.Navigation("ModeInCategories");
                 });
 
-            modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.Operator", b =>
+            modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.Plan", b =>
+                {
+                    b.Navigation("UserInPlans");
+                });
+
+            modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.Provider", b =>
                 {
                     b.Navigation("Offers");
 
@@ -662,12 +667,7 @@ namespace OnlineMobileRechargeService.Data.Migrations
 
                     b.Navigation("Transactions");
 
-                    b.Navigation("VASInOperators");
-                });
-
-            modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.Plan", b =>
-                {
-                    b.Navigation("UserInPlans");
+                    b.Navigation("VASInProviders");
                 });
 
             modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.VAS", b =>
@@ -676,7 +676,7 @@ namespace OnlineMobileRechargeService.Data.Migrations
 
                     b.Navigation("Transactions");
 
-                    b.Navigation("VASInOperators");
+                    b.Navigation("VASInProviders");
                 });
 #pragma warning restore 612, 618
         }

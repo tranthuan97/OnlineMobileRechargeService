@@ -17,7 +17,7 @@ namespace OnlineMobileRechargeService.Data.Configurations
             builder.Property(x => x.Name).IsRequired();
 
             //Lien ket khoa ngoai 1-n voi operator va offer
-            builder.HasOne(x => x.Operator).WithMany(x => x.Offers).HasForeignKey(x => x.OperatorId);
+            builder.HasOne(x => x.Provider).WithMany(x => x.Offers).HasForeignKey(x => x.ProviderId);
 
         }
     }
