@@ -1,16 +1,19 @@
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
-import thunk from 'redux-thunk';
+import createSagaMiddleware from 'redux-saga';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
-import { reducers } from '.';
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
+
+import authState from '../reducers/auth';
+
+export const sagaMiddleware = createSagaMiddleware();
 
 export default function configureStore(history, initialState) {
     const middleware = [
-        thunk,
+        sagaMiddleware,
         routerMiddleware(history)
     ];
 
     const rootReducer = combineReducers({
-        ...reducers,
+        authState,
         router: connectRouter(history)
     });
 

@@ -1,16 +1,45 @@
-import * as React from 'react';
+import React from 'react';
 import { Route } from 'react-router';
+import { useDispatch } from 'react-redux';
+
+import AuthWrapper from './components/AuthWrapper';
+
 import Layout from './pages/Layout';
+
 import Home from './pages/Home';
-import Counter from './pages/Counter';
-import FetchData from './pages/FetchData';
+import Auth from './pages/Auth';
+import Dashboard from './pages/Dashboard';
+import NotFoundError from './pages/NotFoundError';
 
-import './custom.css'
+import { routes } from './constants';
+import * as ActionTypes from './ActionTypes';
 
-export default () => (
+export default () => {
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch({ type: ActionTypes.CHECK_LOCAL_STORAGE });
+  }, [dispatch]);
+
+  return (
     <Layout>
-        <Route exact path='/' component={Home} />
-        <Route path='/counter' component={Counter} />
-        <Route path='/fetch-data/:startDateIndex?' component={FetchData} />
+      <Route exact path={routes.Index} component={Home} />
+      <Route
+        path={routes.Auth}
+        render={(props) => (
+          <AuthWrapper
+            childProps={props}
+            component={<Auth {...props} />}
+          />
+        )}
+      />
+      <Route path={routes.Dashboard} component={(props) => (
+        <AuthWrapper
+          childProps={props}
+          component={<Dashboard {...props} />}
+        />
+      )} />
+      <Route path="*" component={NotFoundError} />
     </Layout>
-);
+  )
+};

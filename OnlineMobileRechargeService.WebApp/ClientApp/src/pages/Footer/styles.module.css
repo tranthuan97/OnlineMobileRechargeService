@@ -1,0 +1,11 @@
+.container {
+  padding: 36px 0px;
+  background-color: #00373d;
+}
+.link {
+  color: white;
+}
+.link:hover {
+  color: white;
+  text-decoration: underline;
+}

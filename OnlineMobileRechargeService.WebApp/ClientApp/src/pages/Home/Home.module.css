@@ -1,10 +1,13 @@
+.container {
+  background-color: #f4f6f6;
+}
 .background {
   padding: 100px 0px;
   background-image: url('/background.jpg');
 }
 .card {
   width: 300px;
-  margin: 14px;
+  margin: 28px;
   align-items: center;
 }
 .title {
@@ -13,4 +16,13 @@
 }
 .size16 {
   font-size: 16px;
+}
+.imageTitle {
+  position: absolute;
+  top: 27.5%;
+  right: 30%;
+  color: white!important;
+}
+.fitCard {
+  margin-bottom: 28px!important;
 }

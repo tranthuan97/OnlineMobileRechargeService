@@ -1,0 +1,29 @@
+html { font-size: 14px; }
+
+@media (min-width: 768px) {
+    html { font-size: 16px; }
+}
+
+.buttonNoStyle {
+    border-color: transparent;
+    background-color: transparent;
+}
+
+.buttonNoStyle:hover {
+    border-color: transparent;
+    background-color: transparent;
+}
+
+.buttonNoStyle:active {
+    border-color: transparent!important;
+    background-color: transparent!important;
+}
+
+.buttonNoStyle:focus {
+    box-shadow: 0 0 0 0;
+    border-color: transparent!important;
+    outline-color: transparent!important;
+    background-color: transparent!important;
+}
+
+.boxShadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }

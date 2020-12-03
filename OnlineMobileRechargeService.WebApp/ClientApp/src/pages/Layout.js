@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Container } from 'reactstrap';
+import React from 'react';
+import Footer from './Footer';
 import NavMenu from './NavMenu';
 
 export default class Layout extends React.PureComponent {
@@ -8,6 +8,7 @@ export default class Layout extends React.PureComponent {
             <React.Fragment>
                 <NavMenu />
                 {this.props.children}
+                <Footer />
             </React.Fragment>
         );
     }
