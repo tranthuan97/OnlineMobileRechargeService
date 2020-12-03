@@ -1,6 +1,10 @@
 import React from 'react';
-import { Route } from 'react-router';
 import { useDispatch } from 'react-redux';
+import {
+  Route,
+  Switch,
+  BrowserRouter as Router,
+} from 'react-router-dom';
 
 import AuthWrapper from './components/AuthWrapper';
 
@@ -22,24 +26,28 @@ export default () => {
   }, [dispatch]);
 
   return (
-    <Layout>
-      <Route exact path={routes.Index} component={Home} />
-      <Route
-        path={routes.Auth}
-        render={(props) => (
-          <AuthWrapper
-            childProps={props}
-            component={<Auth {...props} />}
+    <Router>
+      <Layout>
+        <Switch>
+          <Route exact path={routes.Index} component={Home} />
+          <Route
+            path={routes.Auth}
+            render={(props) => (
+              <AuthWrapper
+                childProps={props}
+                component={<Auth {...props} />}
+              />
+            )}
           />
-        )}
-      />
-      <Route path={routes.Dashboard} component={(props) => (
-        <AuthWrapper
-          childProps={props}
-          component={<Dashboard {...props} />}
-        />
-      )} />
-      <Route path="*" component={NotFoundError} />
-    </Layout>
-  )
+          <Route path={routes.Dashboard} component={(props) => (
+            <AuthWrapper
+              childProps={props}
+              component={<Dashboard {...props} />}
+            />
+          )} />
+          <Route path="*" component={NotFoundError} />
+        </Switch>
+      </Layout>
+    </Router>
+  );
 };
