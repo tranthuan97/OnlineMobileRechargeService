@@ -11,7 +11,7 @@ const Footer = () => {
       <Container>
         <Row>
           <Col flex={1}>
-            <Image src="logo-light.svg" />
+            <Image src="logo-light.svg" preview={false} />
           </Col>
           <Col flex={1} >
             <Row>

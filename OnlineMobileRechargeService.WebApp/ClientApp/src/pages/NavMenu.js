@@ -42,7 +42,7 @@ const NavMenu = () => {
       <Navbar className={`${styles.boxShadow} navbar-expand-sm navbar-toggleable-sm border-bottom`} light>
         <Container>
           <NavbarBrand tag={Link} to="/">
-            <Image src="logo-dark.svg" />
+            <Image src="logo-dark.svg" preview={false} />
           </NavbarBrand>
           <NavbarToggler onClick={toggle} className="mr-2" />
           <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={state.isOpen} navbar>
