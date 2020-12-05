@@ -57,7 +57,7 @@ namespace OnlineMobileRechargeService.Application.Repository.User
                     new Claim("Id", user.Id.ToString()),
                     new Claim("Role", user.Role),
                     }),
-                    Expires = DateTime.UtcNow.AddMinutes(1),
+                    Expires = DateTime.UtcNow.AddMinutes(5),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -107,6 +107,8 @@ namespace OnlineMobileRechargeService.Application.Repository.User
                         FirstName = request.FirstName,
                         LastName = request.LastName,
                         Password = request.Password,
+                        Address = request.Address,
+                        Email = request.Email,
                         Role = role,
                     };
                     Console.WriteLine(user);
@@ -138,7 +140,6 @@ namespace OnlineMobileRechargeService.Application.Repository.User
         public async Task<AppUser> UpdateById(int id ,AppUser user)
         {
 
-            //loi cmnr @@s
             using (var dbContext = new OMRSDbContext())
             {
                 var appUser = dbContext.AppUsers.AsNoTracking().Where(t => t.Id == id).FirstOrDefault();

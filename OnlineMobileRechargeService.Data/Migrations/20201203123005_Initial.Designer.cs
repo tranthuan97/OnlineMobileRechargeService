@@ -10,8 +10,8 @@ using OnlineMobileRechargeService.Data.EF;
 namespace OnlineMobileRechargeService.Data.Migrations
 {
     [DbContext(typeof(OMRSDbContext))]
-    [Migration("20201130132042_Intitial")]
-    partial class Intitial
+    [Migration("20201203123005_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,6 +42,12 @@ namespace OnlineMobileRechargeService.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
@@ -58,6 +64,9 @@ namespace OnlineMobileRechargeService.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VerifyCode")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

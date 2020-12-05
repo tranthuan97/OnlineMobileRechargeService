@@ -40,6 +40,12 @@ namespace OnlineMobileRechargeService.Data.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
@@ -56,6 +62,9 @@ namespace OnlineMobileRechargeService.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VerifyCode")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

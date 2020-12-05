@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace OnlineMobileRechargeService.Application.Repository.Operator
 {
-    public interface IOperatorService
+    public interface IProviderService
     {
-        Task<ICollection<Provider>> GetAll();
+        Task<IEnumerable<Provider>> GetAll();
     }
 }

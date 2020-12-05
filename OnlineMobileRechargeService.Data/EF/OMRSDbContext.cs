@@ -72,7 +72,7 @@ namespace OnlineMobileRechargeService.Data.EF
         public DbSet<FeedBack> FeedBacks { get; set; }
         public DbSet<ModeInCategory> ModeInCategories { get; set; }
         public DbSet<Offer> Offers { get; set; }
-        public DbSet<Provider> Operators { get; set; }
+        public DbSet<Provider> Providers { get; set; }
         public DbSet<PBPTransaction> PBPTransactions { get; set; }
         public DbSet<Plan> Plans { get; set; }
         public DbSet<SimType> SimTypes { get; set; }
