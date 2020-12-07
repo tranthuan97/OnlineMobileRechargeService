@@ -51,29 +51,12 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
                 data.Remove("status");
                 data.TryAdd("status", "WARNING");
                 data.Add("message", "Tài khoản hoặc mật khẩu không đúng !");
-                return Ok(data);
+                return BadRequest(data);
             }
             data.Remove("data");
             data.Add("data", userToken);
-            var uTokenObject = userToken.DecodeToken();
-            Console.WriteLine(uTokenObject);
-            var nameOfProperty = "id";
-            var propertyInfo = uTokenObject.GetType().GetProperty(nameOfProperty);
-            var value = propertyInfo.GetValue(uTokenObject, null);
-            var roleClaim = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Role, StringComparison.InvariantCultureIgnoreCase));
-            //User.Claims
-            if (roleClaim != null)
-            {
-                Console.WriteLine(roleClaim);
-                Console.WriteLine(roleClaim.Value);
-                string role = roleClaim.Value;
-                AppUser user = await _dbContext.AppUsers.FirstOrDefaultAsync(x => x.Role == role);
-                if (user != null)
-                {
-                    Console.WriteLine("User is exist !");
-                }
-            }
-            Console.WriteLine(value);
+
+            //var roleClaim = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Role, StringComparison.InvariantCultureIgnoreCase));
             return Ok(data);
         }
 
@@ -92,7 +75,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
                 data.Add("status", "WARNING");
                 data.Add("message", "Username is exist !");
 
-                return Ok(data);
+                return BadRequest(data);
             }
             data.Remove("data");
             data.Add("data", user);
@@ -113,7 +96,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
                 data.Add("status", "WARNING");
                 data.Add("message", "Username is exist !");
 
-                return Ok(data);
+                return BadRequest(data);
             }
             data.Remove("data");
             data.Add("data", user);
@@ -144,7 +127,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
                 data.Add("status", "WARNING");
                 data.Add("message", "Username is not exist !");
 
-                return BadRequest(data);
+                return Unauthorized(data);
             }
             data.Remove("data");
             data.Add("data", user);
@@ -174,7 +157,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
                 data.Add("status", "WARNING");
                 data.Add("message", "Username is exist !");
 
-                return Ok(data);
+                return Unauthorized(data);
             }
             data.Remove("data");
             data.Add("data", user);

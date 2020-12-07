@@ -12,47 +12,47 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AppUsersController : ControllerBase
+    public class ProvidersController : ControllerBase
     {
         private readonly OMRSDbContext _context;
 
-        public AppUsersController(OMRSDbContext context)
+        public ProvidersController(OMRSDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/AppUsers
+        // GET: api/Providers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppUser>>> GetAppUsers()
+        public async Task<ActionResult<IEnumerable<Provider>>> GetProviders()
         {
-            return await _context.AppUsers.ToListAsync();
+            return await _context.Providers.ToListAsync();
         }
 
-        // GET: api/AppUsers/5
+        // GET: api/Providers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<AppUser>> GetAppUser(int id)
+        public async Task<ActionResult<Provider>> GetProvider(int id)
         {
-            var appUser = await _context.AppUsers.FindAsync(id);
+            var provider = await _context.Providers.FindAsync(id);
 
-            if (appUser == null)
+            if (provider == null)
             {
                 return NotFound();
             }
 
-            return appUser;
+            return provider;
         }
 
-        // PUT: api/AppUsers/5
+        // PUT: api/Providers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAppUser(int id, AppUser appUser)
+        public async Task<IActionResult> PutProvider(int id, Provider provider)
         {
-            if (id != appUser.Id)
+            if (id != provider.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(appUser).State = EntityState.Modified;
+            _context.Entry(provider).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AppUserExists(id))
+                if (!ProviderExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             return NoContent();
         }
 
-        // POST: api/AppUsers
+        // POST: api/Providers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<AppUser>> PostAppUser(AppUser appUser)
+        public async Task<ActionResult<Provider>> PostProvider(Provider provider)
         {
-            _context.AppUsers.Add(appUser);
+            _context.Providers.Add(provider);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAppUser", new { id = appUser.Id }, appUser);
+            return CreatedAtAction("GetProvider", new { id = provider.Id }, provider);
         }
 
-        // DELETE: api/AppUsers/5
+        // DELETE: api/Providers/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAppUser(int id)
+        public async Task<IActionResult> DeleteProvider(int id)
         {
-            var appUser = await _context.AppUsers.FindAsync(id);
-            if (appUser == null)
+            var provider = await _context.Providers.FindAsync(id);
+            if (provider == null)
             {
                 return NotFound();
             }
 
-            _context.AppUsers.Remove(appUser);
+            _context.Providers.Remove(provider);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool AppUserExists(int id)
+        private bool ProviderExists(int id)
         {
-            return _context.AppUsers.Any(e => e.Id == id);
+            return _context.Providers.Any(e => e.Id == id);
         }
     }
 }
