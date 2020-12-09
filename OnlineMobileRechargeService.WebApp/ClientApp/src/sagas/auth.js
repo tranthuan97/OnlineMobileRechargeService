@@ -16,7 +16,7 @@ function* getUserInfo() {
     const configs = {
       headers: { Authorization },
     }
-    const response = yield axios.get('users/me', configs);
+    const response = yield axios.get('/users/me', configs);
 
     axios.defaults.headers.Authorization = Authorization;
 
@@ -32,7 +32,7 @@ function* getUserInfo() {
 
 function* setUserInfo(action) {
   try {
-    const response = yield axios.put('users/me', action.payload);
+    const response = yield axios.put('/users/me', action.payload);
 
     yield put({ type: ActionTypes.SET_USER_INFO_SUCCESS, payload: response.data.data });
 

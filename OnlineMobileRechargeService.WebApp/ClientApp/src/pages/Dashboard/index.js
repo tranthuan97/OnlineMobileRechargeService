@@ -10,23 +10,6 @@ import { routes } from '../../constants';
 import styles from './styles.module.css';
 import * as ActionTypes from '../../ActionTypes';
 
-const dataSource = [
-  {
-    key: '1',
-    service: 'Mike',
-    price: 32,
-    note: '10 Downing Street',
-    createdAt: moment().format('HH:mm DD/MM/YYYY'),
-  },
-  {
-    key: '2',
-    service: 'John',
-    price: 42,
-    note: '10 Downing Street',
-    createdAt: moment().format('HH:mm DD/MM/YYYY'),
-  },
-];
-
 const columns = [
   {
     key: 'key',
@@ -60,8 +43,12 @@ const Dashboard = () => {
 
   const dispatch = useDispatch();
 
+  const user = useSelector((reduxState) => reduxState.authState.user);
+
+  const transactions = useSelector((reduxState) => reduxState.transactionState.transactions);
+
   React.useEffect(() => {
-    // dispatch({ type: ActionTypes.GET_USER_INFO_PENDING });
+    dispatch({ type: ActionTypes.GET_USER_TRANSACTIONS_PENDING });
   }, []);
 
   const onClickOrder = React.useCallback(() => {
@@ -74,7 +61,7 @@ const Dashboard = () => {
       <Row justify="space-between">
         <Typography.Title level={3}>My account</Typography.Title>
         <div>
-          <Typography.Title level={5}>Your phone: +84 77626 6985</Typography.Title>
+          <Typography.Title level={5}>{`Your phone: ${user.username}`}</Typography.Title>
           <Button
             type="primary"
             onClick={onClickOrder}
@@ -89,9 +76,9 @@ const Dashboard = () => {
         <Typography.Title level={5}>My orders</Typography.Title>
       </Row>
       <Table
-        pagination={false}
         columns={columns}
-        dataSource={dataSource}
+        pagination={false}
+        dataSource={transactions}
       />
     </Container >
   );
