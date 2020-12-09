@@ -26,9 +26,6 @@ const NavMenu = () => {
     isOpen: false
   });
 
-  const accountLink = token ? routes.Dashboard : routes.Auth;
-  const accountButtonName = token ? 'Dashboard' : 'My Account';
-
   const toggle = React.useCallback(() => {
     setState((prevState) => ({ ...prevState, isOpen: !prevState.isOpen }))
   }, []);
@@ -42,7 +39,7 @@ const NavMenu = () => {
       <Navbar className={`${styles.boxShadow} navbar-expand-sm navbar-toggleable-sm border-bottom`} light>
         <Container>
           <NavbarBrand tag={Link} to="/">
-            <Image src="logo-dark.svg" preview={false} />
+            <Image src="17910fbb516da033f97c.svg" preview={false} width={210} height={50} />
           </NavbarBrand>
           <NavbarToggler onClick={toggle} className="mr-2" />
           <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={state.isOpen} navbar>
@@ -50,13 +47,23 @@ const NavMenu = () => {
               <NavItem>
                 <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to={accountLink}>{accountButtonName}</NavLink>
-              </NavItem>
-              {token !== null && (
+              {token === null && (
                 <NavItem>
-                  <NavLink tag={Button} className={`${styles.buttonNoStyle} text-dark`} onClick={onLogout}>Logout</NavLink>
+                  <NavLink tag={Link} className="text-dark" to={routes.Auth}>Login</NavLink>
                 </NavItem>
+              )}
+              {token !== null && (
+                <React.Fragment>
+                  <NavItem>
+                    <NavLink tag={Link} className="text-dark" to={routes.Dashboard}>Dashboard</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink tag={Link} className="text-dark" to={routes.MyAccount}>My Account</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink tag={Button} className={`${styles.buttonNoStyle} text-dark`} onClick={onLogout}>Logout</NavLink>
+                  </NavItem>
+                </React.Fragment>
               )}
             </ul>
           </Collapse>

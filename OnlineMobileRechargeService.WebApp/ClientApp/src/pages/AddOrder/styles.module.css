@@ -1,0 +1,15 @@
+.background {
+  padding: 100px 0px;
+  background-image: url('/add-order-header.jpg');
+  background-repeat: no-repeat;
+}
+.separator {
+  margin-bottom: 14px;
+}
+.cardContainer {
+  cursor: pointer;
+}
+.card {
+  width: 25%;
+  text-align: center;
+}

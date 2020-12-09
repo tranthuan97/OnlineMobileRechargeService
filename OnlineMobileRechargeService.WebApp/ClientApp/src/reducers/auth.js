@@ -35,19 +35,32 @@ export default (state = defaultState, action) => {
       };
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
-    case GET_USER_INFO_SUCCESS:
       return {
         ...state,
-        ready: false,
+        ready: true,
         loading: false,
         token: action.payload,
       };
+
+    case GET_USER_INFO_SUCCESS:
+      return {
+        ...state,
+        user: action.payload,
+      }
+
     case LOGIN_FAILED:
     case REGISTER_FAILED:
+      return {
+        ...state,
+        ready: true,
+        loading: false,
+      }
     case GET_USER_INFO_FAILED:
       return {
         ...state,
-        ready: false,
+        user: null,
+        token: null,
+        ready: true,
         loading: false,
       }
 

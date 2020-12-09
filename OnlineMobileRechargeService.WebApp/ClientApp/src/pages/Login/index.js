@@ -1,8 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Input, Button, Checkbox, Image, Row } from 'antd';
+import { Form, Input, Button, Checkbox, Row } from 'antd';
 
-import styles from './styles.module.css';
 import * as ActionTypes from '../../ActionTypes';
 
 const layout = {

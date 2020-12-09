@@ -25,8 +25,8 @@ const AuthWrapper = ({ childProps, component }) => {
 
   return (
     <React.Fragment>
-      <Redirect to={to} />
       {component}
+      <Redirect to={to} />
     </React.Fragment>
   );
 };

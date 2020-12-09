@@ -7,11 +7,11 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <div className={styles.container}>
+    <footer className={styles.container}>
       <Container>
         <Row>
           <Col flex={1}>
-            <Image src="logo-light.svg" preview={false} />
+            <Image src="17910fbb516da033f97c.svg" preview={false} width={210} height={50} />
           </Col>
           <Col flex={1} >
             <Row>
@@ -42,7 +42,7 @@ const Footer = () => {
           </Col>
         </Row>
       </Container>
-    </div>
+    </footer>
   );
 }
 

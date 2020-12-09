@@ -1,9 +1,12 @@
 import React from 'react';
 import moment from 'moment';
 import { Container } from 'reactstrap';
-import { Row, Spin, Table, Typography } from 'antd';
+import { useHistory } from 'react-router';
+import { PlusCircleOutlined } from '@ant-design/icons';
+import { Button, Row, Table, Typography } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { routes } from '../../constants';
 import styles from './styles.module.css';
 import * as ActionTypes from '../../ActionTypes';
 
@@ -53,21 +56,36 @@ const columns = [
 ];
 
 const Dashboard = () => {
+  const history = useHistory();
+
   const dispatch = useDispatch();
 
   const loading = useSelector((reduxState) => reduxState.authState.loading);
 
   React.useEffect(() => {
     dispatch({ type: ActionTypes.GET_USER_INFO_PENDING });
-  }, [])
+  }, []);
 
+  const onClickOrder = React.useCallback(() => {
+    history.push(routes.AddOrder);
+  }, []);
 
   return (
     <Container className={styles.container}>
       {/* {loading && <Spin />} */}
       <Row justify="space-between">
         <Typography.Title level={3}>My account</Typography.Title>
-        <Typography.Title level={5}>Your email: davidbull931997@gmail.com</Typography.Title>
+        <div>
+          <Typography.Title level={5}>Your phone: +84 77626 6985</Typography.Title>
+          <Button
+            type="primary"
+            onClick={onClickOrder}
+            style={{ alignItems: 'center', justifyContent: 'center' }}
+            icon={<PlusCircleOutlined style={{ fontSize: 24, verticalAlign: 'middle', lineHeight: 0 }} />}
+          >
+            Add order
+          </Button>
+        </div>
       </Row>
       <Row>
         <Typography.Title level={5}>My orders</Typography.Title>
@@ -77,7 +95,7 @@ const Dashboard = () => {
         columns={columns}
         dataSource={dataSource}
       />
-    </Container>
+    </Container >
   );
 }
 

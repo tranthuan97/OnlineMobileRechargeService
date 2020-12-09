@@ -1,10 +1,28 @@
 import { replace } from 'connected-react-router';
-import { all, put, takeLeading } from 'redux-saga/effects';
+import { all, put, select, takeLeading } from 'redux-saga/effects';
 
 import axios from '../utils/axios';
 import { apiErrorHandler } from '../utils';
 import * as ActionTypes from '../ActionTypes';
 import { localStorageKey, routes } from '../constants';
+import { store } from '..';
+
+function* getUserInfo() {
+  try {
+    const token = yield select((state) => state.authState.token);
+
+    const configs = {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+    const response = yield axios.get('users/me', configs);
+
+    yield put({ type: ActionTypes.GET_USER_INFO_SUCCESS, payload: response.data.data });
+  } catch (error) {
+    // apiErrorHandler(error);
+    localStorage.removeItem(localStorageKey.TOKEN);
+    yield put({ type: ActionTypes.GET_USER_INFO_FAILED });
+  }
+}
 
 function* checkLocalStorage() {
   const token = localStorage.getItem(localStorageKey.TOKEN)
@@ -14,16 +32,18 @@ function* checkLocalStorage() {
   if (token) {
     dispatchModel.payload = token;
     dispatchModel.type = ActionTypes.CHECK_LOCAL_STORAGE_SUCCESS;
-    yield put(replace(routes.Dashboard));
   }
   yield put(dispatchModel);
 
+  if (token) {
+    yield put(replace(routes.Dashboard));
+  }
 }
 
 function* loginPending(action) {
   const { payload } = action;
   try {
-    const response = yield axios.post('/api/users/authenticate', {
+    const response = yield axios.post('/users/authenticate', {
       Username: payload.username,
       Password: payload.password,
     });
@@ -31,11 +51,11 @@ function* loginPending(action) {
     const { data } = response.data;
 
     if (payload.remember) {
-      localStorage.setItem(localStorageKey.TOKEN, data.token);
+      localStorage.setItem(localStorageKey.TOKEN, data);
     }
 
     yield all([
-      yield put({ type: ActionTypes.LOGIN_SUCCESS, payload: data.token }),
+      yield put({ type: ActionTypes.LOGIN_SUCCESS, payload: data }),
       yield put(replace(routes.Dashboard)),
     ]);
 
@@ -49,14 +69,14 @@ function* logoutPending() {
   localStorage.removeItem(localStorageKey.TOKEN);
   yield all([
     yield put({ type: ActionTypes.LOGOUT_SUCCESS }),
-    yield put(replace(routes.Login)),
+    yield put(replace(routes.Auth)),
   ]);
 }
 
 function* registerPending(action) {
   const { payload } = action;
   try {
-    yield axios.post('/api/users/register', {
+    yield axios.post('/users/register', {
       Username: payload.username,
       Password: payload.password,
       ConfirmPassword: payload.confirmPassword,
@@ -80,4 +100,5 @@ export default function* () {
   yield takeLeading(ActionTypes.LOGIN_PENDING, loginPending);
   yield takeLeading(ActionTypes.LOGOUT_PENDING, logoutPending);
   yield takeLeading(ActionTypes.REGISTER_PENDING, registerPending);
+  yield takeLeading(ActionTypes.GET_USER_INFO_PENDING, getUserInfo);
 }

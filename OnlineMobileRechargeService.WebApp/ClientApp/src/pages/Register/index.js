@@ -1,8 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Input, Button, Checkbox, Image, Row } from 'antd';
-
-import styles from './styles.module.css';
+import { Form, Input, Button, Row } from 'antd';
 import * as ActionTypes from '../../ActionTypes';
 
 const layout = {
@@ -72,43 +70,6 @@ const Register = () => {
         </Form.Item>
 
         <Form.Item
-          label="Password"
-          name="password"
-          hasFeedback
-          rules={[
-            {
-              required: true,
-              message: 'Please input your password!',
-            },
-          ]}
-        >
-          <Input.Password />
-        </Form.Item>
-
-        <Form.Item
-          hasFeedback
-          label="Re password"
-          name="confirmPassword"
-          dependencies={['password']}
-          rules={[
-            {
-              required: true,
-              message: 'Please input confirm password!',
-            },
-            ({ getFieldValue }) => ({
-              validator(rule, value) {
-                if ((value && getFieldValue('password')) && getFieldValue('password') === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject('The two passwords that you entered do not match!');
-              },
-            }),
-          ]}
-        >
-          <Input.Password />
-        </Form.Item>
-
-        <Form.Item
           label="First name"
           name="firstname"
           hasFeedback
@@ -132,6 +93,28 @@ const Register = () => {
               message: 'Please input your first name!',
             },
           ]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="Email"
+          name="email"
+          hasFeedback
+          rules={[
+            {
+              required: true,
+              message: 'Please input your email!',
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="Address"
+          name="address"
+          hasFeedback
         >
           <Input />
         </Form.Item>
