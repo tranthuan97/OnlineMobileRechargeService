@@ -39,7 +39,7 @@ namespace OnlineMobileRechargeService.Application.Repository.User
         {
             using (var dbContext = new OMRSDbContext())
             {
-                AppUser user = await dbContext.AppUsers.FirstOrDefaultAsync(x => x.Username == username && x.Password == password);
+                AppUser user = await dbContext.AppUsers.FirstOrDefaultAsync(x => x.Username == username && x.Password == password.CreateMD5());
 
                 // return null if user not found
                 if (user == null)
@@ -101,12 +101,14 @@ namespace OnlineMobileRechargeService.Application.Repository.User
                     {
                         return null;
                     }
+
+                    var pwd = request.Password.CreateMD5();
                     var user = new AppUser()
                     {
                         Username = request.UserName,
                         FirstName = request.FirstName,
                         LastName = request.LastName,
-                        Password = request.Password,
+                        Password = pwd,
                         Address = request.Address,
                         Email = request.Email,
                         Role = role,
