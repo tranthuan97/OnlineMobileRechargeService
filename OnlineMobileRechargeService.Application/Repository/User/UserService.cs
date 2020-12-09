@@ -96,7 +96,8 @@ namespace OnlineMobileRechargeService.Application.Repository.User
             {
                 if (request.Password.Equals(request.ConfirmPassword))
                 {
-                    var u = dbContext.AppUsers.FirstOrDefault(x => x.Username == request.UserName && x.Role == "Admin");
+
+                    var u = dbContext.AppUsers.FirstOrDefault(x => x.Username == request.UserName && x.Role == role);
                     if (u != null)
                     {
                         return null;
