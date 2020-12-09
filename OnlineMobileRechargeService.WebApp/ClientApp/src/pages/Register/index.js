@@ -24,7 +24,6 @@ const Register = () => {
   const dispatch = useDispatch();
 
   const loading = useSelector((reduxState) => reduxState.authState.loading);
-  console.log("🚀 ~ file: index.js ~ line 27 ~ Register ~ loading", loading)
 
   const [form] = Form.useForm();
 
