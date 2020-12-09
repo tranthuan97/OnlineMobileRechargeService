@@ -175,7 +175,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
 
             var claim = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Name, StringComparison.InvariantCultureIgnoreCase));
             
-            AppUser user = await _userService.UpdateById(Int32.Parse(claim.Value), appUser);
+            AppUser user = await _userService.ChangePassword(Int32.Parse(claim.Value), appUser);
             
             data.Remove("data");
             data.Add("data", user);
