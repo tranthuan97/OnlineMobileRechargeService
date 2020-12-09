@@ -12,47 +12,47 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DNDCategoriesController : ControllerBase
+    public class DNDTransactionsController : ControllerBase
     {
         private readonly OMRSDbContext _context;
 
-        public DNDCategoriesController(OMRSDbContext context)
+        public DNDTransactionsController(OMRSDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/DNDCategories
+        // GET: api/DNDTransactions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DNDCategory>>> GetDNDCategories()
+        public async Task<ActionResult<IEnumerable<DNDTransaction>>> GetDNDTransactions()
         {
-            return await _context.DNDCategories.ToListAsync();
+            return await _context.DNDTransactions.ToListAsync();
         }
 
-        // GET: api/DNDCategories/5
+        // GET: api/DNDTransactions/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<DNDCategory>> GetDNDCategory(int id)
+        public async Task<ActionResult<DNDTransaction>> GetDNDTransaction(int id)
         {
-            var dNDCategory = await _context.DNDCategories.FindAsync(id);
+            var dNDTransaction = await _context.DNDTransactions.FindAsync(id);
 
-            if (dNDCategory == null)
+            if (dNDTransaction == null)
             {
                 return NotFound();
             }
 
-            return dNDCategory;
+            return dNDTransaction;
         }
 
-        // PUT: api/DNDCategories/5
+        // PUT: api/DNDTransactions/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDNDCategory(int id, DNDCategory dNDCategory)
+        public async Task<IActionResult> PutDNDTransaction(int id, DNDTransaction dNDTransaction)
         {
-            if (id != dNDCategory.Id)
+            if (id != dNDTransaction.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(dNDCategory).State = EntityState.Modified;
+            _context.Entry(dNDTransaction).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DNDCategoryExists(id))
+                if (!DNDTransactionExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             return NoContent();
         }
 
-        // POST: api/DNDCategories
+        // POST: api/DNDTransactions
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<DNDCategory>> PostDNDCategory(DNDCategory dNDCategory)
+        public async Task<ActionResult<DNDTransaction>> PostDNDTransaction(DNDTransaction dNDTransaction)
         {
-            _context.DNDCategories.Add(dNDCategory);
+            _context.DNDTransactions.Add(dNDTransaction);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDNDCategory", new { id = dNDCategory.Id }, dNDCategory);
+            return CreatedAtAction("GetDNDTransaction", new { id = dNDTransaction.Id }, dNDTransaction);
         }
 
-        // DELETE: api/DNDCategories/5
+        // DELETE: api/DNDTransactions/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDNDCategory(int id)
+        public async Task<IActionResult> DeleteDNDTransaction(int id)
         {
-            var dNDCategory = await _context.DNDCategories.FindAsync(id);
-            if (dNDCategory == null)
+            var dNDTransaction = await _context.DNDTransactions.FindAsync(id);
+            if (dNDTransaction == null)
             {
                 return NotFound();
             }
 
-            _context.DNDCategories.Remove(dNDCategory);
+            _context.DNDTransactions.Remove(dNDTransaction);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool DNDCategoryExists(int id)
+        private bool DNDTransactionExists(int id)
         {
-            return _context.DNDCategories.Any(e => e.Id == id);
+            return _context.DNDTransactions.Any(e => e.Id == id);
         }
     }
 }

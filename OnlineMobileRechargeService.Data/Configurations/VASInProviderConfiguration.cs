@@ -11,7 +11,7 @@ namespace OnlineMobileRechargeService.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<VASInProvider> builder)
         {
-            builder.ToTable("VASInOperators");
+            builder.ToTable("VASInProviders");
             builder.HasKey(x => new { x.VASId, x.ProviderId });
 
             builder.HasOne(x => x.VAS).WithMany(x => x.VASInProviders).HasForeignKey(x => x.VASId);
