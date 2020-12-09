@@ -12,47 +12,47 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DNDCategoriesController : ControllerBase
+    public class ContactUsController : ControllerBase
     {
         private readonly OMRSDbContext _context;
 
-        public DNDCategoriesController(OMRSDbContext context)
+        public ContactUsController(OMRSDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/DNDCategories
+        // GET: api/ContactUs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DNDCategory>>> GetDNDCategories()
+        public async Task<ActionResult<IEnumerable<ContactUs>>> GetContactUs()
         {
-            return await _context.DNDCategories.ToListAsync();
+            return await _context.ContactUs.ToListAsync();
         }
 
-        // GET: api/DNDCategories/5
+        // GET: api/ContactUs/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<DNDCategory>> GetDNDCategory(int id)
+        public async Task<ActionResult<ContactUs>> GetContactUs(int id)
         {
-            var dNDCategory = await _context.DNDCategories.FindAsync(id);
+            var contactUs = await _context.ContactUs.FindAsync(id);
 
-            if (dNDCategory == null)
+            if (contactUs == null)
             {
                 return NotFound();
             }
 
-            return dNDCategory;
+            return contactUs;
         }
 
-        // PUT: api/DNDCategories/5
+        // PUT: api/ContactUs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDNDCategory(int id, DNDCategory dNDCategory)
+        public async Task<IActionResult> PutContactUs(int id, ContactUs contactUs)
         {
-            if (id != dNDCategory.Id)
+            if (id != contactUs.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(dNDCategory).State = EntityState.Modified;
+            _context.Entry(contactUs).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DNDCategoryExists(id))
+                if (!ContactUsExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             return NoContent();
         }
 
-        // POST: api/DNDCategories
+        // POST: api/ContactUs
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<DNDCategory>> PostDNDCategory(DNDCategory dNDCategory)
+        public async Task<ActionResult<ContactUs>> PostContactUs(ContactUs contactUs)
         {
-            _context.DNDCategories.Add(dNDCategory);
+            _context.ContactUs.Add(contactUs);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDNDCategory", new { id = dNDCategory.Id }, dNDCategory);
+            return CreatedAtAction("GetContactUs", new { id = contactUs.Id }, contactUs);
         }
 
-        // DELETE: api/DNDCategories/5
+        // DELETE: api/ContactUs/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDNDCategory(int id)
+        public async Task<IActionResult> DeleteContactUs(int id)
         {
-            var dNDCategory = await _context.DNDCategories.FindAsync(id);
-            if (dNDCategory == null)
+            var contactUs = await _context.ContactUs.FindAsync(id);
+            if (contactUs == null)
             {
                 return NotFound();
             }
 
-            _context.DNDCategories.Remove(dNDCategory);
+            _context.ContactUs.Remove(contactUs);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool DNDCategoryExists(int id)
+        private bool ContactUsExists(int id)
         {
-            return _context.DNDCategories.Any(e => e.Id == id);
+            return _context.ContactUs.Any(e => e.Id == id);
         }
     }
 }
