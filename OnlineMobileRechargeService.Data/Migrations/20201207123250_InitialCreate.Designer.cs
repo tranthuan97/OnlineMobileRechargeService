@@ -10,8 +10,8 @@ using OnlineMobileRechargeService.Data.EF;
 namespace OnlineMobileRechargeService.Data.Migrations
 {
     [DbContext(typeof(OMRSDbContext))]
-    [Migration("20201203123005_Initial")]
-    partial class Initial
+    [Migration("20201207123250_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
