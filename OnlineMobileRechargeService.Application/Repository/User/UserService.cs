@@ -150,6 +150,31 @@ namespace OnlineMobileRechargeService.Application.Repository.User
 
                 appUser.FirstName = user.FirstName;
                 appUser.LastName = user.LastName;
+                appUser.Email = user.Email;
+                appUser.Address = user.Address;
+
+                dbContext.AppUsers.Update(appUser);
+
+                await dbContext.SaveChangesAsync();
+
+                return user;
+            }
+
+            
+        }
+
+        public async Task<AppUser> ChangePassword(int id, AppUser user)
+        {
+
+            using (var dbContext = new OMRSDbContext())
+            {
+                var appUser = dbContext.AppUsers.AsNoTracking().Where(t => t.Id == id).FirstOrDefault();
+                if (appUser == null)
+                {
+                    return null;
+                }
+
+                appUser.Password = user.Password;
 
                 dbContext.AppUsers.Update(appUser);
 

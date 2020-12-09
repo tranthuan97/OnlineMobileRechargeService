@@ -136,29 +136,47 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
         }
 
         [HttpPut("me")]
-        public async Task<IActionResult> updateUser([FromBody] AppUser appUser)
+        public async Task<IActionResult> UpdateUser([FromBody] AppUser appUser)
         {
             Dictionary<string, Object> data = new Dictionary<string, object>();
             data.Add("status", "SUCCESS");
             data.Add("data", null);
 
             var claim = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Name, StringComparison.InvariantCultureIgnoreCase));
-            if (claim == null)
-            {
-                data.Remove("status");
-                data.Add("status", "WARNING");
-                data.Add("message", "Invalid token !");
-                return Unauthorized(data);
-            }
+            //if (claim == null)
+            //{
+            //    data.Remove("status");
+            //    data.Add("status", "WARNING");
+            //    data.Add("message", "Invalid token !");
+            //    return Unauthorized(data);
+            //}
             AppUser user = await _userService.UpdateById(Int32.Parse(claim.Value), appUser);
-            if (user == null)
-            {
-                data.Remove("status");
-                data.Add("status", "WARNING");
-                data.Add("message", "Username is exist !");
+            //if (user == null)
+            //{
+            //    data.Remove("status");
+            //    data.Add("status", "WARNING");
+            //    data.Add("message", "Username is exist !");
 
-                return Unauthorized(data);
-            }
+            //    return Unauthorized(data);
+            //}
+            data.Remove("data");
+            data.Add("data", user);
+
+            return Ok(data);
+        }
+
+
+        [HttpPut("me/changepassword")]
+        public async Task<IActionResult> ChangePassword([FromBody] AppUser appUser)
+        {
+            Dictionary<string, Object> data = new Dictionary<string, object>();
+            data.Add("status", "SUCCESS");
+            data.Add("data", null);
+
+            var claim = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Name, StringComparison.InvariantCultureIgnoreCase));
+            
+            AppUser user = await _userService.UpdateById(Int32.Parse(claim.Value), appUser);
+            
             data.Remove("data");
             data.Add("data", user);
 
