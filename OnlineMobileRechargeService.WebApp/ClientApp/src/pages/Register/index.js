@@ -1,14 +1,16 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, Button, Row } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+
+import styles from './styles.module.css';
 import * as ActionTypes from '../../ActionTypes';
 
 const layout = {
   labelCol: {
-    span: 8,
+    span: 10,
   },
   wrapperCol: {
-    span: 16,
+    span: 24,
   },
 };
 const tailLayout = {
@@ -44,7 +46,7 @@ const Register = () => {
   };
 
   return (
-    <Row justify="center">
+    <div className={styles.container}>
       <Form
         {...layout}
         name="basic"
@@ -67,6 +69,33 @@ const Register = () => {
           ]}
         >
           <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="Password"
+          name="password"
+          hasFeedback
+          rules={[
+            {
+              required: true,
+              message: 'Please input your password!',
+            },
+          ]}
+        >
+          <Input.Password />
+        </Form.Item>
+        <Form.Item
+          label="Confirm password"
+          name="confirmPassword"
+          hasFeedback
+          rules={[
+            {
+              required: true,
+              message: 'Please input your password!',
+            },
+          ]}
+        >
+          <Input.Password />
         </Form.Item>
 
         <Form.Item
@@ -131,7 +160,7 @@ const Register = () => {
         </Form.Item>
       </Form>
 
-    </Row>
+    </div>
   );
 };
 

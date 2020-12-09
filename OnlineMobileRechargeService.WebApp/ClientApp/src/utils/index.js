@@ -1,3 +1,5 @@
+import { notification } from 'antd';
+
 export const apiErrorHandler = (error) => {
   let message = 'Something wrong';
 
@@ -9,5 +11,8 @@ export const apiErrorHandler = (error) => {
     message = error.message;
   }
 
-  alert(message);
+  notification.error({
+    message: 'Error',
+    description: message,
+  });
 };

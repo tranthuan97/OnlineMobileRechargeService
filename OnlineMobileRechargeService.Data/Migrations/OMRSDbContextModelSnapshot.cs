@@ -496,7 +496,7 @@ namespace OnlineMobileRechargeService.Data.Migrations
 
                     b.HasIndex("ProviderId");
 
-                    b.ToTable("VASInOperators");
+                    b.ToTable("VASInProviders");
                 });
 
             modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.DNDTransaction", b =>

@@ -19,16 +19,13 @@ const AuthWrapper = ({ childProps, component }) => {
     );
   }
 
-  if (to.includes('/dashboard') === false) {
-    to = '/dashboard';
+  const isDashboard = to.includes(routes.Dashboard);
+
+  if (isDashboard === false) {
+    to = routes.Dashboard;
   }
 
-  return (
-    <React.Fragment>
-      {component}
-      <Redirect to={to} />
-    </React.Fragment>
-  );
+  return component;
 };
 
 export default AuthWrapper;

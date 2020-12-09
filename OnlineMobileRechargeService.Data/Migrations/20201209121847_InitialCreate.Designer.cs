@@ -10,7 +10,7 @@ using OnlineMobileRechargeService.Data.EF;
 namespace OnlineMobileRechargeService.Data.Migrations
 {
     [DbContext(typeof(OMRSDbContext))]
-    [Migration("20201207123250_InitialCreate")]
+    [Migration("20201209121847_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -498,7 +498,7 @@ namespace OnlineMobileRechargeService.Data.Migrations
 
                     b.HasIndex("ProviderId");
 
-                    b.ToTable("VASInOperators");
+                    b.ToTable("VASInProviders");
                 });
 
             modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.DNDTransaction", b =>

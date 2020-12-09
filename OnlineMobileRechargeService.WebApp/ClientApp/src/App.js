@@ -53,7 +53,7 @@ export default () => {
             />
           )} />
 
-          <Route exact path={routes.MyAccount} component={(props) => (
+          <Route path={routes.MyAccount} component={(props) => (
             <AuthWrapper
               childProps={props}
               component={<MyAccount {...props} />}

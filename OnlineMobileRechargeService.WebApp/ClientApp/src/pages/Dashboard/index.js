@@ -60,10 +60,8 @@ const Dashboard = () => {
 
   const dispatch = useDispatch();
 
-  const loading = useSelector((reduxState) => reduxState.authState.loading);
-
   React.useEffect(() => {
-    dispatch({ type: ActionTypes.GET_USER_INFO_PENDING });
+    // dispatch({ type: ActionTypes.GET_USER_INFO_PENDING });
   }, []);
 
   const onClickOrder = React.useCallback(() => {

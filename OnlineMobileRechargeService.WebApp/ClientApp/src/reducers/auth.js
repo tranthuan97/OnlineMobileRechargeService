@@ -15,6 +15,10 @@ import {
   GET_USER_INFO_PENDING,
   GET_USER_INFO_SUCCESS,
   GET_USER_INFO_FAILED,
+
+  SET_USER_INFO_PENDING,
+  SET_USER_INFO_SUCCESS,
+  SET_USER_INFO_FAILED,
 } from '../ActionTypes';
 
 const defaultState = {
@@ -29,6 +33,7 @@ export default (state = defaultState, action) => {
     case LOGIN_PENDING:
     case REGISTER_PENDING:
     case GET_USER_INFO_PENDING:
+    case SET_USER_INFO_PENDING:
       return {
         ...state,
         loading: true,
@@ -45,11 +50,25 @@ export default (state = defaultState, action) => {
     case GET_USER_INFO_SUCCESS:
       return {
         ...state,
+        ready: true,
+        loading: false,
         user: action.payload,
+      }
+
+    case SET_USER_INFO_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        user: {
+          ...state.user,
+          ...action.payload,
+        },
       }
 
     case LOGIN_FAILED:
     case REGISTER_FAILED:
+    case GET_USER_INFO_FAILED:
+    case SET_USER_INFO_FAILED:
       return {
         ...state,
         ready: true,
@@ -67,7 +86,7 @@ export default (state = defaultState, action) => {
     case CHECK_LOCAL_STORAGE_SUCCESS:
       return {
         ...state,
-        ready: true,
+        // ready: true,
         token: action.payload,
       };
 

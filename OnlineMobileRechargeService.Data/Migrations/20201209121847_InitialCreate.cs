@@ -341,7 +341,7 @@ namespace OnlineMobileRechargeService.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "VASInOperators",
+                name: "VASInProviders",
                 columns: table => new
                 {
                     ProviderId = table.Column<int>(type: "int", nullable: false),
@@ -349,15 +349,15 @@ namespace OnlineMobileRechargeService.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VASInOperators", x => new { x.VASId, x.ProviderId });
+                    table.PrimaryKey("PK_VASInProviders", x => new { x.VASId, x.ProviderId });
                     table.ForeignKey(
-                        name: "FK_VASInOperators_Providers_ProviderId",
+                        name: "FK_VASInProviders_Providers_ProviderId",
                         column: x => x.ProviderId,
                         principalTable: "Providers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_VASInOperators_VAS_VASId",
+                        name: "FK_VASInProviders_VAS_VASId",
                         column: x => x.VASId,
                         principalTable: "VAS",
                         principalColumn: "Id",
@@ -444,8 +444,8 @@ namespace OnlineMobileRechargeService.Data.Migrations
                 column: "PlanId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_VASInOperators_ProviderId",
-                table: "VASInOperators",
+                name: "IX_VASInProviders_ProviderId",
+                table: "VASInProviders",
                 column: "ProviderId");
         }
 
@@ -488,7 +488,7 @@ namespace OnlineMobileRechargeService.Data.Migrations
                 name: "UserInPlans");
 
             migrationBuilder.DropTable(
-                name: "VASInOperators");
+                name: "VASInProviders");
 
             migrationBuilder.DropTable(
                 name: "DNDCategories");

@@ -1,3 +1,5 @@
 .container {
-  height: 77.44vh;
+  flex: 1;
+  display: flex;
+  padding: 28px 0px;
 }
