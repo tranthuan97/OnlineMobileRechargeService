@@ -75,7 +75,7 @@ namespace OnlineMobileRechargeService.Application.Repository.User
         {
             using (var dbContext = new OMRSDbContext())
             {
-                
+
                 return await dbContext.AppUsers.ToListAsync();
             }
 
@@ -140,7 +140,7 @@ namespace OnlineMobileRechargeService.Application.Repository.User
             }
         }
 
-        public async Task<AppUser> UpdateById(int id ,AppUser user)
+        public async Task<AppUser> UpdateById(int id, AppUser user)
         {
 
             using (var dbContext = new OMRSDbContext())
@@ -163,27 +163,32 @@ namespace OnlineMobileRechargeService.Application.Repository.User
                 return user;
             }
 
-            
+
         }
 
-        public async Task<AppUser> ChangePassword(int id, AppUser user)
+        public async Task<string> ChangePassword(int id, ChangePassword user)
         {
 
             using (var dbContext = new OMRSDbContext())
             {
-                var appUser = dbContext.AppUsers.AsNoTracking().Where(t => t.Id == id).FirstOrDefault();
+                var appUser = await dbContext.AppUsers.AsNoTracking().Where(x => x.Password == user.Password.CreateMD5() && x.Id == id).FirstOrDefaultAsync();
                 if (appUser == null)
                 {
                     return null;
                 }
+                if (!user.NewPassword.Equals(user.ConfirmPassword))
+                {
+                    return null;
+                }
 
-                appUser.Password = user.Password;
+                
+                appUser.Password = user.NewPassword.CreateMD5();
 
                 dbContext.AppUsers.Update(appUser);
 
                 await dbContext.SaveChangesAsync();
 
-                return user;
+                return user.Password;
             }
         }
     }

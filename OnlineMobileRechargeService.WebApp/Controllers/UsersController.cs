@@ -167,7 +167,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
 
 
         [HttpPut("me/changepassword")]
-        public async Task<IActionResult> ChangePassword([FromBody] AppUser appUser)
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePassword appUser)
         {
             Dictionary<string, Object> data = new Dictionary<string, object>();
             data.Add("status", "SUCCESS");
@@ -175,7 +175,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
 
             var claim = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Name, StringComparison.InvariantCultureIgnoreCase));
             
-            AppUser user = await _userService.ChangePassword(Int32.Parse(claim.Value), appUser);
+            var user = await _userService.ChangePassword(Int32.Parse(claim.Value), appUser);
             
             data.Remove("data");
             data.Add("data", user);
