@@ -24,9 +24,7 @@ function* getUserInfo() {
 
     yield put(replace(routes.Dashboard));
   } catch (error) {
-    // apiErrorHandler(error);
-    localStorage.removeItem(localStorageKey.TOKEN);
-    yield put({ type: ActionTypes.GET_USER_INFO_FAILED });
+    apiErrorHandler(error, ActionTypes.GET_USER_INFO_FAILED);
   }
 }
 
@@ -41,8 +39,7 @@ function* setUserInfo(action) {
       description: 'Update profile successfully.'
     });
   } catch (error) {
-    apiErrorHandler(error);
-    yield put({ type: ActionTypes.SET_USER_INFO_FAILED });
+    apiErrorHandler(error, ActionTypes.SET_USER_INFO_FAILED);
   }
 }
 
@@ -54,7 +51,10 @@ function* checkLocalStorage() {
   if (token) {
     dispatchModel.payload = token;
     dispatchModel.type = ActionTypes.CHECK_LOCAL_STORAGE_SUCCESS;
+  } else {
+    yield put(replace(routes.Auth));
   }
+
   yield put(dispatchModel);
 
   if (token) {
@@ -82,8 +82,7 @@ function* loginPending(action) {
     ]);
 
   } catch (error) {
-    apiErrorHandler(error);
-    yield put({ type: ActionTypes.LOGIN_FAILED });
+    apiErrorHandler(error, ActionTypes.LOGIN_FAILED);
   }
 }
 
@@ -91,10 +90,8 @@ function* logoutPending() {
   axios.defaults.headers.Authorization = undefined;
 
   localStorage.removeItem(localStorageKey.TOKEN);
-  yield all([
-    yield put({ type: ActionTypes.LOGOUT_SUCCESS }),
-    yield put(replace(routes.Auth)),
-  ]);
+
+  yield put({ type: ActionTypes.LOGOUT_SUCCESS });
 }
 
 function* registerPending(action) {
@@ -121,8 +118,28 @@ function* registerPending(action) {
     ]);
 
   } catch (error) {
-    apiErrorHandler(error);
-    yield put({ type: ActionTypes.REGISTER_FAILED });
+    apiErrorHandler(error, ActionTypes.REGISTER_FAILED);
+  }
+}
+
+function* updateUserPassword(action) {
+  const { payload } = action;
+  try {
+    yield axios.put('/users/me/changepassword', {
+      Password: payload.password,
+      NewPassword: payload.newPassword,
+      ConfirmPassword: payload.confirmPassword,
+    });
+
+    notification.success({
+      message: 'Success',
+      description: 'Change password successfully!'
+    });
+
+    yield put({ type: ActionTypes.UPDATE_USER_PASSWORD_SUCCESS });
+
+  } catch (error) {
+    apiErrorHandler(error, ActionTypes.UPDATE_USER_PASSWORD_FAILED);
   }
 }
 
@@ -133,4 +150,5 @@ export default function* () {
   yield takeLeading(ActionTypes.REGISTER_PENDING, registerPending);
   yield takeLeading(ActionTypes.GET_USER_INFO_PENDING, getUserInfo);
   yield takeLeading(ActionTypes.SET_USER_INFO_PENDING, setUserInfo);
+  yield takeLeading(ActionTypes.UPDATE_USER_PASSWORD_PENDING, updateUserPassword);
 }

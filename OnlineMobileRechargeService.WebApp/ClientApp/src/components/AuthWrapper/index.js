@@ -1,28 +1,21 @@
 import React from 'react';
 import { Redirect } from 'react-router';
 import { useSelector } from 'react-redux';
-import { routes } from '../../constants';
+import { localStorageKey, routes } from '../../constants';
+import Auth from '../../pages/Auth';
 
-const AuthWrapper = ({ childProps, component }) => {
-  const { pathname, search } = childProps.location;
-
+const AuthWrapper = ({ component }) => {
   const token = useSelector((state) => state.authState.token);
 
-  let to = pathname + search;
+  const localStorageToken = localStorage.getItem(localStorageKey.TOKEN);
 
-  if (token === null) {
+  if (!token || !localStorageToken) {
     return (
       <React.Fragment>
         <Redirect from="*" to={routes.Auth} />
-        {component}
+        <Auth />
       </React.Fragment>
     );
-  }
-
-  const isDashboard = to.includes(routes.Dashboard);
-
-  if (isDashboard === false) {
-    to = routes.Dashboard;
   }
 
   return component;

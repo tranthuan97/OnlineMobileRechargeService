@@ -7,6 +7,7 @@ export const routes = {
   Auth: '/auth',
   Dashboard: '/dashboard',
   MyAccount: '/dashboard/account',
+  ChangePassword: '/dashboard/change-password',
   AddOrder: '/dashboard/add-order',
   Payment: '/dashboard/payment',
 }

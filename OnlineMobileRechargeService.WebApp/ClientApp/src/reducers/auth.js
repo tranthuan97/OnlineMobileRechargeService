@@ -19,6 +19,10 @@ import {
   SET_USER_INFO_PENDING,
   SET_USER_INFO_SUCCESS,
   SET_USER_INFO_FAILED,
+
+  UPDATE_USER_PASSWORD_PENDING,
+  UPDATE_USER_PASSWORD_FAILED,
+  UPDATE_USER_PASSWORD_SUCCESS,
 } from '../ActionTypes';
 
 const defaultState = {
@@ -34,10 +38,22 @@ export default (state = defaultState, action) => {
     case REGISTER_PENDING:
     case GET_USER_INFO_PENDING:
     case SET_USER_INFO_PENDING:
+    case UPDATE_USER_PASSWORD_PENDING:
       return {
         ...state,
         loading: true,
       };
+    case LOGIN_FAILED:
+    case REGISTER_FAILED:
+    case GET_USER_INFO_FAILED:
+    case SET_USER_INFO_FAILED:
+    case UPDATE_USER_PASSWORD_SUCCESS:
+    case UPDATE_USER_PASSWORD_FAILED:
+      return {
+        ...state,
+        ready: true,
+        loading: false,
+      }
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
       return {
@@ -64,16 +80,6 @@ export default (state = defaultState, action) => {
           ...action.payload,
         },
       }
-
-    case LOGIN_FAILED:
-    case REGISTER_FAILED:
-    case GET_USER_INFO_FAILED:
-    case SET_USER_INFO_FAILED:
-      return {
-        ...state,
-        ready: true,
-        loading: false,
-      }
     case GET_USER_INFO_FAILED:
       return {
         ...state,
@@ -99,7 +105,10 @@ export default (state = defaultState, action) => {
     case LOGOUT_SUCCESS:
       return {
         ...state,
+        user: null,
         token: null,
+        ready: true,
+        loading: false,
       };
 
     default: return state;

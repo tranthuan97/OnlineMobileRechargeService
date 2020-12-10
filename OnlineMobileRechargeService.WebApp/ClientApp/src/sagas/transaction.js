@@ -19,8 +19,7 @@ function* getUserTransactions() {
     //   description: 'Update profile successfully.'
     // });
   } catch (error) {
-    apiErrorHandler(error);
-    yield put({ type: ActionTypes.GET_USER_TRANSACTIONS_FAILED });
+    apiErrorHandler(error, ActionTypes.GET_USER_TRANSACTIONS_FAILED);
   }
 }
 
