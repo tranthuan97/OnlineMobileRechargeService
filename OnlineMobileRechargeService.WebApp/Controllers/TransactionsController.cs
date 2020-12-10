@@ -107,7 +107,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             Dictionary<string, Object> data = new Dictionary<string, object>();
             data.Add("status", "SUCCESS");
             data.Add("data", null);
-
+            transaction.CreatedDate = DateTime.Now;
             _context.Transactions.Add(transaction);
 
             await _context.SaveChangesAsync();
