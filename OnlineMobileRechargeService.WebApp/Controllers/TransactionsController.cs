@@ -46,7 +46,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
                 .Include(x =>x.Provider)
                 .Include(x=>x.AppUser)
                 .Include(x => x.VAS)
-                .Include(x=> x.SimtypeId)
+                .Include(x=> x.SimType)
                 .ToListAsync();
             data.Remove("data");
             data.Add("data", listTransactions);
