@@ -32,7 +32,10 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             data.Add("status", "SUCCESS");
             data.Add("data", null);
 
-            var listPlans = await _context.Plans.ToListAsync();
+            var listPlans = await _context.Plans
+                .Include(x=>x.Provider)
+                .Include(x=>x.VAS)
+                .ToListAsync();
             
             data.Remove("data");
             data.Add("message", "Get data is success ! !");
