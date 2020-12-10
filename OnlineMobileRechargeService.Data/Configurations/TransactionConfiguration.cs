@@ -21,6 +21,7 @@ namespace OnlineMobileRechargeService.Data.Configurations
             builder.HasOne(x => x.AppUser).WithMany(x => x.Transactions).HasForeignKey(x => x.UserId);
             builder.HasOne(x => x.Provider).WithMany(x => x.Transactions).HasForeignKey(x => x.ProviderId);
             builder.HasOne(x => x.VAS).WithMany(x => x.Transactions).HasForeignKey(x => x.VASId);
+            builder.HasOne(x => x.SimType).WithMany(x => x.Transactions).HasForeignKey(x => x.SimtypeId);
         }
     }
 }

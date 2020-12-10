@@ -31,7 +31,11 @@ namespace OnlineMobileRechargeService.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddControllersWithViews();
+
+            services.AddControllersWithViews()
+            .AddNewtonsoftJson(options =>
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
 
             //add connection to database
             services.AddDbContext<OMRSDbContext>(options =>
@@ -86,7 +90,7 @@ namespace OnlineMobileRechargeService.WebApp
                 app.UseHsts();
             }
 
-            
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();

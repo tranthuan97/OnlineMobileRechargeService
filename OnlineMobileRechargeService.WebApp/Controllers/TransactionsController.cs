@@ -39,10 +39,15 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             //    data.Remove("status");
             //    data.Add("status", "WARNING");
             //    data.Add("message", "Invalid token !");
-            //    return Unauthorized(data);
+            //    return Unauthorized(data);    
             //}
 
-            var listTransactions =  await _context.Transactions.ToListAsync();
+            var listTransactions = await _context.Transactions
+                .Include(x =>x.Provider)
+                .Include(x=>x.AppUser)
+                .Include(x => x.VAS)
+                .Include(x=> x.SimtypeId)
+                .ToListAsync();
             data.Remove("data");
             data.Add("data", listTransactions);
 
