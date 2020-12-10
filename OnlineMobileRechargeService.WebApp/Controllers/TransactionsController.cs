@@ -104,10 +104,19 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult<Transaction>> PostTransaction(Transaction transaction)
         {
+            Dictionary<string, Object> data = new Dictionary<string, object>();
+            data.Add("status", "SUCCESS");
+            data.Add("data", null);
+
             _context.Transactions.Add(transaction);
+
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTransaction", new { id = transaction.Id }, transaction);
+            data.Remove("data");
+            data.Add("message", "Add new data is success ! !");
+            data.Add("data", transaction);
+
+            return Ok(data);
         }
 
         // DELETE: api/Transactions/5
