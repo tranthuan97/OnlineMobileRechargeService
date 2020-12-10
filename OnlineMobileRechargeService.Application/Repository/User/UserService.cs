@@ -176,19 +176,20 @@ namespace OnlineMobileRechargeService.Application.Repository.User
                 {
                     return null;
                 }
-                if (!user.NewPassword.Equals(user.ConfirmPassword))
+                if (user.NewPassword.Equals(user.ConfirmPassword))
                 {
-                    return null;
+                    appUser.Password = user.NewPassword.CreateMD5();
+
+                    dbContext.AppUsers.Update(appUser);
+
+                    await dbContext.SaveChangesAsync();
+
+                    return user.NewPassword;
                 }
 
-                
-                appUser.Password = user.NewPassword.CreateMD5();
 
-                dbContext.AppUsers.Update(appUser);
+                return "";
 
-                await dbContext.SaveChangesAsync();
-
-                return user.Password;
             }
         }
     }

@@ -177,7 +177,26 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             
             var user = await _userService.ChangePassword(Int32.Parse(claim.Value), appUser);
             
+            if(user == null)
+            {
+                data.Remove("status");
+                data.Add("status", "WARNING");
+                data.Add("message", "Password is not correct !");
+
+                return BadRequest(data);
+            }
+
+            if (user == "")
+            {
+                data.Remove("status");
+                data.Add("status", "WARNING");
+                data.Add("message", "New password and confirm password are not same !");
+
+                return BadRequest(data);
+            }
+
             data.Remove("data");
+            data.Add("message", "Your password has been changed successfully !");
             data.Add("data", user);
 
             return Ok(data);
