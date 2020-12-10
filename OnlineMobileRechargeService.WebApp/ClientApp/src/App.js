@@ -14,6 +14,7 @@ import Home from './pages/Home';
 import Auth from './pages/Auth';
 import Dashboard from './pages/Dashboard';
 import MyAccount from './pages/MyAccount';
+import ChangePassword from './pages/ChangePassword';
 import AddOrder from './pages/AddOrder';
 import Payment from './pages/Payment';
 import NotFoundError from './pages/NotFoundError';
@@ -30,52 +31,59 @@ export default () => {
     dispatch({ type: ActionTypes.CHECK_LOCAL_STORAGE });
   }, []);
 
-  if (!ready) return null;
+  if (!ready) {
+    return null;
+  }
 
   return (
-    <React.Suspense>
-      <Layout>
-        <Switch>
-          <Route exact path={routes.Index} component={Home} />
-          <Route
-            path={routes.Auth}
-            component={(props) => (
-              <AuthWrapper
-                childProps={props}
-                component={<Auth {...props} />}
-              />
-            )}
+    <Layout>
+      <Switch>
+        <Route exact path={routes.Index} component={Home} />
+        <Route
+          path={routes.Auth}
+          component={(props) => (
+            <AuthWrapper
+              childProps={props}
+              component={<Auth {...props} />}
+            />
+          )}
+        />
+        <Route exact path={routes.Dashboard} component={(props) => (
+          <AuthWrapper
+            childProps={props}
+            component={<Dashboard {...props} />}
           />
-          <Route exact path={routes.Dashboard} component={(props) => (
-            <AuthWrapper
-              childProps={props}
-              component={<Dashboard {...props} />}
-            />
-          )} />
+        )} />
 
-          <Route path={routes.MyAccount} component={(props) => (
-            <AuthWrapper
-              childProps={props}
-              component={<MyAccount {...props} />}
-            />
-          )} />
+        <Route path={routes.MyAccount} component={(props) => (
+          <AuthWrapper
+            childProps={props}
+            component={<MyAccount {...props} />}
+          />
+        )} />
 
-          {/* PAYMENT */}
-          <Route path={routes.AddOrder} component={(props) => (
-            <AuthWrapper
-              childProps={props}
-              component={<AddOrder {...props} />}
-            />
-          )} />
-          <Route path={routes.Payment} component={(props) => (
-            <AuthWrapper
-              childProps={props}
-              component={<Payment {...props} />}
-            />
-          )} />
-          <Route path="*" component={NotFoundError} />
-        </Switch>
-      </Layout>
-    </React.Suspense>
+        <Route path={routes.ChangePassword} component={(props) => (
+          <AuthWrapper
+            childProps={props}
+            component={<ChangePassword {...props} />}
+          />
+        )} />
+
+        {/* PAYMENT */}
+        <Route path={routes.AddOrder} component={(props) => (
+          <AuthWrapper
+            childProps={props}
+            component={<AddOrder {...props} />}
+          />
+        )} />
+        <Route path={routes.Payment} component={(props) => (
+          <AuthWrapper
+            childProps={props}
+            component={<Payment {...props} />}
+          />
+        )} />
+        <Route path="*" component={NotFoundError} />
+      </Switch>
+    </Layout>
   );
 };

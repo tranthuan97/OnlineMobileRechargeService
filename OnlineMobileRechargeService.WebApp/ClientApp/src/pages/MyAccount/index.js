@@ -1,10 +1,12 @@
 import React from 'react';
+import { replace } from 'connected-react-router';
 import { UserOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Avatar, Typography, Card, Row, Divider, Form, Input, Button } from 'antd';
 
 import styles from './styles.module.css';
 import * as ActionTypes from '../../ActionTypes';
+import { routes } from '../../constants';
 
 const MyAccount = () => {
   const dispatch = useDispatch();
@@ -19,6 +21,10 @@ const MyAccount = () => {
 
   const onFinish = React.useCallback((payload) => {
     dispatch({ type: ActionTypes.SET_USER_INFO_PENDING, payload });
+  }, []);
+
+  const onClickChangePassword = React.useCallback(() => {
+    dispatch(replace(routes.ChangePassword))
   }, [])
 
   return (
@@ -77,7 +83,6 @@ const MyAccount = () => {
                 <Input disabled={loading} className={styles.input} />
               </Form.Item>
             </Row>
-            <Divider />
             <Row justify="center">
               <Form.Item>
                 <Button
@@ -90,6 +95,18 @@ const MyAccount = () => {
                   Save changes
                 </Button>
               </Form.Item>
+            </Row>
+            <Divider />
+            <Row justify="center">
+              <Button
+                type="primary"
+                htmlType="button"
+                disabled={loading}
+                className={styles.submitButton}
+                onClick={onClickChangePassword}
+              >
+                Change password
+                </Button>
             </Row>
           </Form>
         </Card>

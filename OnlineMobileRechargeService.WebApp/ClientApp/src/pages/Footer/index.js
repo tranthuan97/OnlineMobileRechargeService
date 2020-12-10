@@ -17,9 +17,9 @@ const Footer = () => {
             <Row>
               <Link to="/" className={styles.link}>About Us</Link>
             </Row>
-            <Row>
+            {/* <Row>
               <Link to="/" className={styles.link}>Payment methods</Link>
-            </Row>
+            </Row> */}
           </Col>
           <Col flex={1}>
             <Row>

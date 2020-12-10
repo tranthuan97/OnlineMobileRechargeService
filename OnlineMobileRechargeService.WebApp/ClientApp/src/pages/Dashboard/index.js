@@ -14,12 +14,15 @@ const columns = [
   {
     key: 'key',
     title: 'Id',
-    dataIndex: 'key',
+    dataIndex: 'id',
   },
   {
     key: 'service',
     title: 'Service',
-    dataIndex: 'service',
+    // dataIndex: 'service',
+    render: (text, record) => {
+      return `${record.vas.name} - ${record.provider.name}`;
+    }
   },
   {
     key: 'price',
@@ -27,14 +30,28 @@ const columns = [
     dataIndex: 'price',
   },
   {
+    key: 'payment-card',
+    title: 'Payment Card',
+    // dataIndex: 'note',
+    render: (text, record) => {
+      return `${record.paymentCard}`;
+    }
+  },
+  {
     key: 'note',
     title: 'Note',
-    dataIndex: 'note',
+    // dataIndex: 'note',
+    render: (text, record) => {
+      return `${record.simType.name}`;
+    }
   },
   {
     key: 'createdAt',
     title: 'Created At',
-    dataIndex: 'createdAt',
+    // dataIndex: 'createdDate',
+    render: (text) => {
+      return moment(text).format('DD/MM/YYYY HH:mm');
+    }
   },
 ];
 
@@ -79,6 +96,7 @@ const Dashboard = () => {
         columns={columns}
         pagination={false}
         dataSource={transactions}
+        rowKey={(record) => record.id.toString()}
       />
     </Container >
   );

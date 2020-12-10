@@ -1,0 +1,27 @@
+.container {
+  flex: 1;
+  display: flex;
+}
+.wrapper {
+  padding: 14px 0px;
+  background-color: #f4f6f6;
+}
+.card {
+  width: 100%;
+  border-radius: 10px;
+}
+.pointer {
+  cursor: pointer;
+}
+.formItem {
+  flex: 1;
+  display: flex;
+  padding: 0px 14px;
+}
+.input {
+  padding: 10px;
+  border-radius: 5px;
+}
+.submitButton {
+  height: 45px;
+}
