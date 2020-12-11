@@ -25,6 +25,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
 
         // GET: api/Plans
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<Plan>>> GetPlans()
         {
 
