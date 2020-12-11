@@ -12,5 +12,6 @@ namespace OnlineMobileRechargeService.Application.ViewModels.Transactions
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public string PaymentCard { get; set; }
+        public bool PaymentMethod { get; set; }
     }
 }
