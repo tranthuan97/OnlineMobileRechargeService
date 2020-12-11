@@ -51,8 +51,8 @@ namespace OnlineMobileRechargeService.Data.EF
             modelBuilder.ApplyConfiguration(new PBPTransactionConfiguration());
             modelBuilder.ApplyConfiguration(new PlanConfiguration());
 
-            modelBuilder.ApplyConfiguration(new SimTypeConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionConfiguration());
+            modelBuilder.ApplyConfiguration(new GuestTransactionConfiguration());
             modelBuilder.ApplyConfiguration(new UserInPlanConfiguration());
             modelBuilder.ApplyConfiguration(new VASConfiguration());
             modelBuilder.ApplyConfiguration(new VASInProviderConfiguration());
@@ -75,8 +75,8 @@ namespace OnlineMobileRechargeService.Data.EF
         public DbSet<Provider> Providers { get; set; }
         public DbSet<PBPTransaction> PBPTransactions { get; set; }
         public DbSet<Plan> Plans { get; set; }
-        public DbSet<SimType> SimTypes { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<GuestTransaction> GuestTransactions { get; set; }
         public DbSet<UserInPlan> UserInPlans { get; set; }
         public DbSet<VAS> VAS { get; set; }
         public DbSet<VASInProvider> VASInProviders { get; set; }

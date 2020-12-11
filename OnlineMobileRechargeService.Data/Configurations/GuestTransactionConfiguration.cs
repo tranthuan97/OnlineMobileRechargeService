@@ -7,15 +7,15 @@ using System.Text;
 
 namespace OnlineMobileRechargeService.Data.Configurations
 {
-    public class SimTypeConfiguration : IEntityTypeConfiguration<SimType>
+    public class GuestTransactionConfiguration : IEntityTypeConfiguration<GuestTransaction>
     {
-        public void Configure(EntityTypeBuilder<SimType> builder)
+        public void Configure(EntityTypeBuilder<GuestTransaction> builder)
         {
-            builder.ToTable("SimTypes");
+            builder.ToTable("GuestTransactions");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
-            builder.Property(x => x.Name).IsRequired();
 
+            builder.HasOne(x => x.Plan).WithMany(x => x.GuestTransactions).HasForeignKey(x => x.PlanId);
         }
     }
 }

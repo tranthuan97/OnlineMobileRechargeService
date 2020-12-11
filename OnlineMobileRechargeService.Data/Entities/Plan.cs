@@ -18,6 +18,7 @@ namespace OnlineMobileRechargeService.Data.Entities
         public Provider Provider { get; set; }
         public VAS VAS { get; set; }
         public List<UserInPlan> UserInPlans { get; set; }
+        public List<GuestTransaction> GuestTransactions { get; set; }
 
     }
 }

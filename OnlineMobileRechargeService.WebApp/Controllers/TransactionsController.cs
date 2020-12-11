@@ -43,10 +43,9 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             //}
 
             var listTransactions = await _context.Transactions
-                .Include(x =>x.Provider)
-                .Include(x=>x.AppUser)
+                .Include(x => x.Provider)
+                .Include(x => x.AppUser)
                 .Include(x => x.VAS)
-                .Include(x=> x.SimType)
                 .ToListAsync();
             data.Remove("data");
             data.Add("data", listTransactions);
@@ -104,11 +103,55 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult<Transaction>> PostTransaction(Transaction transaction)
         {
+            var claim = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Name, StringComparison.InvariantCultureIgnoreCase));
             Dictionary<string, Object> data = new Dictionary<string, object>();
             data.Add("status", "SUCCESS");
             data.Add("data", null);
+            if (transaction.PaymentCard.Equals(""))
+            {
+                data.Remove("status");
+                data.Add("status", "WARNING");
+                data.Add("message", "Field not null ! !");
+                return BadRequest(data);
+            }
+
+            transaction.UserId = Int32.Parse(claim.Value);
+            transaction.Simtype = "Postpaid";
             transaction.CreatedDate = DateTime.Now;
             _context.Transactions.Add(transaction);
+
+            await _context.SaveChangesAsync();
+
+            data.Remove("data");
+            data.Add("message", "Add new data is success ! !");
+            data.Add("data", transaction);
+
+            return Ok(data);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("guest")]
+        public async Task<ActionResult<GuestTransaction>> PostGuestTransaction(GuestTransaction transaction)
+        {
+            Dictionary<string, Object> data = new Dictionary<string, object>();
+            data.Add("status", "SUCCESS");
+            data.Add("data", null);
+
+            if (transaction.PaymentCard.Equals("")
+                || transaction.FirstName.Equals("")
+                || transaction.LastName.Equals("")
+                || transaction.PhoneNumber.Equals("")
+                )
+            {
+                data.Remove("status");
+                data.Add("status", "WARNING");
+                data.Add("message", "Field not null ! !");
+                return BadRequest(data);
+            }
+
+            transaction.CreatedDate = DateTime.Now;
+            transaction.Simtype = "Prepay";
+            _context.GuestTransactions.Add(transaction);
 
             await _context.SaveChangesAsync();
 

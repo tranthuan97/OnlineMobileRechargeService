@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineMobileRechargeService.Data.EF;
 
 namespace OnlineMobileRechargeService.Data.Migrations
 {
     [DbContext(typeof(OMRSDbContext))]
-    partial class OMRSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201210160826_Table-GuestTransactions")]
+    partial class TableGuestTransactions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -290,12 +292,14 @@ namespace OnlineMobileRechargeService.Data.Migrations
                     b.Property<int>("PlanId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Simtype")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("SimtypeId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PlanId");
+
+                    b.HasIndex("SimtypeId");
 
                     b.ToTable("GuestTransactions");
                 });
@@ -430,6 +434,22 @@ namespace OnlineMobileRechargeService.Data.Migrations
                     b.ToTable("Providers");
                 });
 
+            modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.SimType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SimTypes");
+                });
+
             modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.Transaction", b =>
                 {
                     b.Property<int>("Id")
@@ -452,8 +472,8 @@ namespace OnlineMobileRechargeService.Data.Migrations
                     b.Property<int>("ProviderId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Simtype")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("SimtypeId")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -464,6 +484,8 @@ namespace OnlineMobileRechargeService.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ProviderId");
+
+                    b.HasIndex("SimtypeId");
 
                     b.HasIndex("UserId");
 
@@ -553,7 +575,15 @@ namespace OnlineMobileRechargeService.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("OnlineMobileRechargeService.Data.Entities.SimType", "SimType")
+                        .WithMany("GuestTransactions")
+                        .HasForeignKey("SimtypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Plan");
+
+                    b.Navigation("SimType");
                 });
 
             modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.ModeInCategory", b =>
@@ -613,6 +643,12 @@ namespace OnlineMobileRechargeService.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("OnlineMobileRechargeService.Data.Entities.SimType", "SimType")
+                        .WithMany("Transactions")
+                        .HasForeignKey("SimtypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("OnlineMobileRechargeService.Data.Entities.AppUser", "AppUser")
                         .WithMany("Transactions")
                         .HasForeignKey("UserId")
@@ -628,6 +664,8 @@ namespace OnlineMobileRechargeService.Data.Migrations
                     b.Navigation("AppUser");
 
                     b.Navigation("Provider");
+
+                    b.Navigation("SimType");
 
                     b.Navigation("VAS");
                 });
@@ -709,6 +747,13 @@ namespace OnlineMobileRechargeService.Data.Migrations
                     b.Navigation("Transactions");
 
                     b.Navigation("VASInProviders");
+                });
+
+            modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.SimType", b =>
+                {
+                    b.Navigation("GuestTransactions");
+
+                    b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("OnlineMobileRechargeService.Data.Entities.VAS", b =>
