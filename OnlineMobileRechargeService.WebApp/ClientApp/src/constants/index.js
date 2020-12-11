@@ -4,6 +4,7 @@ export const localStorageKey = {
 
 export const routes = {
   Index: '/',
+  AboutUs: '/about-us',
   Auth: '/auth',
   Dashboard: '/dashboard',
   MyAccount: '/dashboard/account',

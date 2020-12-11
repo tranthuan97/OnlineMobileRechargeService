@@ -1,45 +1,43 @@
 import React from 'react';
 import { Container } from 'reactstrap';
-import { useDispatch } from 'react-redux';
-import { Button, Card, Image, Row, Typography } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { Card, Divider, Image, Row, Typography } from 'antd';
 
-import axios from '../../utils/axios';
 import styles from './styles.module.css';
 import * as ActionTypes from '../../ActionTypes';
 
 const AddOrder = () => {
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    axios.get('/plans')
-      .then((response) => {
-        console.log("🚀 ~ file: index.js ~ line 12 ~ .then ~ response", response)
-      })
-      .catch((error) => {
-        console.log("🚀 ~ file: index.js ~ line 15 ~ React.useEffect ~ error", { ...error })
+  const plans = useSelector((reduxState) => reduxState.orderState.plans)
 
-      });
-  }, []);
+  React.useEffect(() => {
+    dispatch({ type: ActionTypes.GET_ORDERS_PENDING })
+  }, [dispatch]);
 
   const onClickItem = React.useCallback((item) => (e) => {
     dispatch({ type: ActionTypes.SELECT_PLAN, payload: item });
-  }, [])
+  }, [dispatch]);
 
   const renderItem = React.useCallback((item, index) => {
     return (
       <div key={index} className={styles.cardContainer} onClick={onClickItem(item, index)}>
-        <Card.Grid className={styles.card}>
-          <Image src={item.providerImage} preview={false} />
-          <Typography.Title level={3}>
-            {item.provider}
-          </Typography.Title>
-          <Typography.Text>
-            {`Receive ${item.price} VND`}
-          </Typography.Text>
+        <Card.Grid style={{ width: 'calc(100%/4)' }}>
+          <Image src={item.provider?.logo} preview={false} />
+          <Row justify="center">
+            <Typography.Title level={4}>{`${item.name} - ${item.validate}`}</Typography.Title>
+          </Row>
+          <Row justify="center">
+            <Typography.Title level={5}>{`${item.price} VND`}</Typography.Title>
+          </Row>
+          <Divider />
+          <Row>
+            <Typography.Text>{item.description}</Typography.Text>
+          </Row>
         </Card.Grid>
       </div>
     )
-  }, [])
+  }, [onClickItem])
 
   return (
     <div>
@@ -58,11 +56,7 @@ const AddOrder = () => {
       <Row justify="center">
         <Container>
           <Card title="Plans">
-            {Array(8).fill({
-              provider: 'Mobifone',
-              price: 20000.00,
-              providerImage: '/mobifone_vietnam.jpg',
-            }).map(renderItem)}
+            {plans.map(renderItem)}
           </Card>
         </Container>
       </Row>

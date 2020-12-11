@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   Route,
   Switch,
-  BrowserRouter as Router,
 } from 'react-router-dom';
 
 import AuthWrapper from './components/AuthWrapper';
@@ -21,6 +20,7 @@ import NotFoundError from './pages/NotFoundError';
 
 import { routes } from './constants';
 import * as ActionTypes from './ActionTypes';
+import AboutUs from './pages/AboutUs';
 
 export default () => {
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ export default () => {
 
   React.useEffect(() => {
     dispatch({ type: ActionTypes.CHECK_LOCAL_STORAGE });
-  }, []);
+  }, [dispatch]);
 
   if (!ready) {
     return null;
@@ -39,6 +39,7 @@ export default () => {
     <Layout>
       <Switch>
         <Route exact path={routes.Index} component={Home} />
+        <Route exact path={routes.AboutUs} component={AboutUs} />
         <Route
           path={routes.Auth}
           component={(props) => (

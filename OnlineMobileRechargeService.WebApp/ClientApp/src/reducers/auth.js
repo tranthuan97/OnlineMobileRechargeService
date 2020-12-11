@@ -45,7 +45,6 @@ export default (state = defaultState, action) => {
       };
     case LOGIN_FAILED:
     case REGISTER_FAILED:
-    case GET_USER_INFO_FAILED:
     case SET_USER_INFO_FAILED:
     case UPDATE_USER_PASSWORD_SUCCESS:
     case UPDATE_USER_PASSWORD_FAILED:

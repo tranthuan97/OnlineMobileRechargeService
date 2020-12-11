@@ -1,9 +1,10 @@
 import React from 'react';
 import { Col, Image, Row } from 'antd';
 import { Container } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 import styles from './styles.module.css';
-import { Link } from 'react-router-dom';
+import { routes } from '../../constants';
 
 const Footer = () => {
   return (
@@ -15,7 +16,7 @@ const Footer = () => {
           </Col>
           <Col flex={1} >
             <Row>
-              <Link to="/" className={styles.link}>About Us</Link>
+              <Link to={routes.AboutUs} className={styles.link}>About Us</Link>
             </Row>
             {/* <Row>
               <Link to="/" className={styles.link}>Payment methods</Link>

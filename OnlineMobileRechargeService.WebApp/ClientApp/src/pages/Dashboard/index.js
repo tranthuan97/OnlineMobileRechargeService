@@ -34,7 +34,7 @@ const columns = [
     title: 'Payment Card',
     // dataIndex: 'note',
     render: (text, record) => {
-      return `${record.paymentCard}`;
+      return record.paymentCard;
     }
   },
   {
@@ -42,7 +42,7 @@ const columns = [
     title: 'Note',
     // dataIndex: 'note',
     render: (text, record) => {
-      return `${record.simType.name}`;
+      return record.simType;
     }
   },
   {
@@ -66,11 +66,11 @@ const Dashboard = () => {
 
   React.useEffect(() => {
     dispatch({ type: ActionTypes.GET_USER_TRANSACTIONS_PENDING });
-  }, []);
+  }, [dispatch]);
 
   const onClickOrder = React.useCallback(() => {
     history.push(routes.AddOrder);
-  }, []);
+  }, [history]);
 
   return (
     <Container className={styles.container}>

@@ -35,7 +35,7 @@ const Payment = () => {
         ...state,
       },
     });
-  }, [state]);
+  }, [state, dispatch]);
 
   return (
     <div className={styles.container}>
@@ -48,7 +48,7 @@ const Payment = () => {
             <Card className={styles.fitCard}>
               <Row>
                 <Image
-                  src={selectedPlan?.providerImage}
+                  src={selectedPlan?.provider?.logo}
                   preview={false}
                   width={180}
                   height={114}
@@ -56,21 +56,21 @@ const Payment = () => {
                 />
 
                 <div>
-                  <Typography.Title level={5}>{selectedPlan?.provider}</Typography.Title>
-                  <Row>
+                  <Typography.Title level={5}>{selectedPlan?.provider?.name}</Typography.Title>
+                  {/* <Row>
                     <Typography.Text>Vietnam</Typography.Text>
+                  </Row> */}
+                  <Row className={styles.mb10}>
+                    <Typography.Text>{user.username}</Typography.Text>
                   </Row>
-                  <Row>
-                    <Typography.Text>+84 77626 6985</Typography.Text>
-                  </Row>
-                  <Row>
+                  <Row className={styles.mb10}>
                     <FiSmartphone fontSize={24} className={styles.mr10} /><Typography.Text>The phone credit will be put on the phone immediately</Typography.Text>
                   </Row>
                 </div>
               </Row>
               <Divider />
               <Row justify="space-between">
-                <Typography.Text strong className={styles.title}>{selectedPlan?.provider}</Typography.Text>
+                <Typography.Text strong className={styles.title}>{selectedPlan?.provider?.name}</Typography.Text>
                 <Typography.Text strong className={styles.title}>{selectedPlan?.price}</Typography.Text>
               </Row>
               <Row justify="space-between">

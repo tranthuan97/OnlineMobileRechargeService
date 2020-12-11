@@ -1,12 +1,10 @@
 import React from 'react';
-import { replace } from 'connected-react-router';
 import { UserOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Avatar, Typography, Card, Row, Divider, Form, Input, Button } from 'antd';
 
 import styles from './styles.module.css';
 import * as ActionTypes from '../../ActionTypes';
-import { routes } from '../../constants';
 
 const ChangePassword = () => {
   const dispatch = useDispatch();
@@ -15,7 +13,7 @@ const ChangePassword = () => {
 
   const onFinish = React.useCallback((payload) => {
     dispatch({ type: ActionTypes.UPDATE_USER_PASSWORD_PENDING, payload });
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className={`${styles.container} ${styles.wrapper}`}>

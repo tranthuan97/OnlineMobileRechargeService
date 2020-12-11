@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Row } from 'antd';
+import { Form, Input, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './styles.module.css';

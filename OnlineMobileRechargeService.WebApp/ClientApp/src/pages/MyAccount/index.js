@@ -21,11 +21,11 @@ const MyAccount = () => {
 
   const onFinish = React.useCallback((payload) => {
     dispatch({ type: ActionTypes.SET_USER_INFO_PENDING, payload });
-  }, []);
+  }, [dispatch]);
 
   const onClickChangePassword = React.useCallback(() => {
     dispatch(replace(routes.ChangePassword))
-  }, [])
+  }, [dispatch]);
 
   return (
     <div className={`${styles.container} ${styles.wrapper}`}>

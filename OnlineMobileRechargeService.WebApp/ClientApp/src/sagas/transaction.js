@@ -1,4 +1,3 @@
-import { notification } from 'antd';
 import { put, takeLeading } from 'redux-saga/effects';
 
 import axios from '../utils/axios';
@@ -13,11 +12,6 @@ function* getUserTransactions() {
       type: ActionTypes.GET_USER_TRANSACTIONS_SUCCESS,
       payload: response.data.data,
     });
-
-    // notification.success({
-    //   message: 'Success',
-    //   description: 'Update profile successfully.'
-    // });
   } catch (error) {
     apiErrorHandler(error, ActionTypes.GET_USER_TRANSACTIONS_FAILED);
   }
