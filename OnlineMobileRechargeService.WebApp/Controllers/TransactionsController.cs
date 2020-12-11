@@ -46,7 +46,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             var listTransactions = await _context.Transactions
                 .Include(x => x.Provider)
                 .Include(x => x.AppUser)
-                .Include(x => x.VAS)
+                .Include(x => x.VAS).ThenInclude(x => x.Plans)
                 .ToListAsync();
             data.Remove("data");
             data.Add("data", listTransactions);
