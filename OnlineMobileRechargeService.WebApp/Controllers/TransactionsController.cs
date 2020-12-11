@@ -123,7 +123,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
                 VASId = plan.VASId,
                 Price = plan.Price,
                 UserId = Int32.Parse(claim.Value),
-                Simtype = request.PaymentMethod ? "Prepay" : "Postpaid",
+                Simtype = request.PaymentMethod ? "Prepaid" : "Postpaid",
                 PaymentCard = request.PaymentCard,
                 CreatedDate = DateTime.Now,
             };
