@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OnlineMobileRechargeService.Application.ViewModels.Transactions;
 using OnlineMobileRechargeService.Data.EF;
 using OnlineMobileRechargeService.Data.Entities;
 
@@ -101,13 +102,13 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
         // POST: api/Transactions
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Transaction>> PostTransaction(Transaction transaction)
+        public async Task<ActionResult<Transaction>> PostTransaction(TransactionRequest request)
         {
             var claim = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Name, StringComparison.InvariantCultureIgnoreCase));
             Dictionary<string, Object> data = new Dictionary<string, object>();
             data.Add("status", "SUCCESS");
             data.Add("data", null);
-            if (transaction.PaymentCard.Equals(""))
+            if (request.PaymentCard.Equals(""))
             {
                 data.Remove("status");
                 data.Add("status", "WARNING");
@@ -115,9 +116,17 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
                 return BadRequest(data);
             }
 
-            transaction.UserId = Int32.Parse(claim.Value);
-            transaction.Simtype = "Postpaid";
-            transaction.CreatedDate = DateTime.Now;
+            var plan = _context.Plans.Find(request.PlanId);
+            var transaction = new Transaction
+            {
+                ProviderId = plan.ProviderId,
+                VASId = plan.VASId,
+                Price = plan.Price,
+                UserId = Int32.Parse(claim.Value),
+                Simtype = "Postpaid",
+                PaymentCard = request.PaymentCard,
+                CreatedDate = DateTime.Now,
+        };
             _context.Transactions.Add(transaction);
 
             await _context.SaveChangesAsync();
@@ -131,16 +140,16 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
 
         [AllowAnonymous]
         [HttpPost("guest")]
-        public async Task<ActionResult<GuestTransaction>> PostGuestTransaction(GuestTransaction transaction)
+        public async Task<ActionResult<GuestTransaction>> PostGuestTransaction(TransactionRequest request)
         {
             Dictionary<string, Object> data = new Dictionary<string, object>();
             data.Add("status", "SUCCESS");
             data.Add("data", null);
 
-            if (transaction.PaymentCard.Equals("")
-                || transaction.FirstName.Equals("")
-                || transaction.LastName.Equals("")
-                || transaction.PhoneNumber.Equals("")
+            if (request.PaymentCard.Equals("")
+                || request.FirstName.Equals("")
+                || request.LastName.Equals("")
+                || request.PhoneNumber.Equals("")
                 )
             {
                 data.Remove("status");
@@ -149,8 +158,17 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
                 return BadRequest(data);
             }
 
-            transaction.CreatedDate = DateTime.Now;
-            transaction.Simtype = "Prepay";
+            var plan = _context.Plans.Find(request.PlanId);
+            var transaction = new GuestTransaction
+            {
+                PlanId = plan.Id,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                PhoneNumber = request.PhoneNumber,
+                Simtype = "Prepay",
+                PaymentCard = request.PaymentCard,
+                CreatedDate = DateTime.Now,
+            };
             _context.GuestTransactions.Add(transaction);
 
             await _context.SaveChangesAsync();
