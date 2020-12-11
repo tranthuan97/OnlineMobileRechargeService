@@ -16,6 +16,8 @@ using System.Threading.Tasks;
 using System.Security.Claims;
 using OnlineMobileRechargeService.Data.EF;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
+using System.Net.Mail;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -61,6 +63,20 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
         }
 
 
+        public bool IsValid(string emailaddress)
+        {
+            try
+            {
+                MailAddress m = new MailAddress(emailaddress);
+
+                return true;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+        }
+
         [AllowAnonymous]
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
@@ -68,6 +84,44 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             Dictionary<string, Object> data = new Dictionary<string, object>();
             data.Add("status", "SUCCESS");
             data.Add("data", null);
+
+            bool regex = Regex.Match(request.UserName, @"(\+[0-9]{2}|\+[0-9]{2}\(0\)|\(\+[0-9]{2}\)\(0\)|00[0-9]{2}|0)([0-9]{9}|[0-9\-\s]{9,18})").Success;
+
+            if(request.UserName == null
+                || request.Password == null
+                || request.Password == null
+                || request.ConfirmPassword == null
+                || request.FirstName == null
+                || request.LastName == null
+                || request.Email == null
+                || request.Address == null
+                )
+            {
+                data.Remove("status");
+                data.Add("status", "WARNING");
+                data.Add("message", "One of fields is not null !");
+
+                return BadRequest(data);
+            }
+
+            if (regex == false)
+            {
+                data.Remove("status");
+                data.Add("status", "WARNING");
+                data.Add("message", "Phone number must be a number and at lest 9 characters !");
+
+                return BadRequest(data);
+            }
+
+            if (IsValid(request.Email) == false)
+            {
+                data.Remove("status");
+                data.Add("status", "WARNING");
+                data.Add("message", "Invalid email address. Follow the format: abc@xyz.domain !");
+
+                return BadRequest(data);
+            }
+
             var user = await _userService.Register(request, "User");
             if (user == null)
             {
@@ -89,6 +143,33 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             Dictionary<string, Object> data = new Dictionary<string, object>();
             data.Add("status", "SUCCESS");
             data.Add("data", null);
+
+            if (request.UserName == null
+                || request.Password == null
+                || request.Password == null
+                || request.ConfirmPassword == null
+                || request.FirstName == null
+                || request.LastName == null
+                || request.Email == null
+                || request.Address == null
+                )
+            {
+                data.Remove("status");
+                data.Add("status", "WARNING");
+                data.Add("message", "One of fields is not null !");
+
+                return BadRequest(data);
+            }
+
+            if (IsValid(request.Email) == false)
+            {
+                data.Remove("status");
+                data.Add("status", "WARNING");
+                data.Add("message", "Invalid email address. Follow the format: abc@xyz.domain !");
+
+                return BadRequest(data);
+            }
+
             var user = await _userService.Register(request, "Admin");
             if (user == null)
             {
