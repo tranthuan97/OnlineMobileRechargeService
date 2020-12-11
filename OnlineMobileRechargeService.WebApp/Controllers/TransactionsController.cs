@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -109,8 +108,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             Dictionary<string, Object> data = new Dictionary<string, object>();
             data.Add("status", "SUCCESS");
             data.Add("data", null);
-
-            if (request.PaymentCard == null || request.PaymentCard.Equals(""))
+            if (request.PaymentCard.Equals(""))
             {
                 data.Remove("status");
                 data.Add("status", "WARNING");
@@ -118,22 +116,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
                 return BadRequest(data);
             }
 
-            bool paymentCardRegex = Regex.Match(request.PaymentCard, @"^[0-9]+$").Success;
-            if (paymentCardRegex == false)
-            {
-                data.Remove("status");
-                data.Add("status", "WARNING");
-                data.Add("message", "Must be a number !");
-                return BadRequest(data);
-            }
             var plan = _context.Plans.Find(request.PlanId);
-            if(plan == null)
-            {
-                data.Remove("status");
-                data.Add("status", "WARNING");
-                data.Add("message", "Plan is not exist !");
-                return BadRequest(data);
-            }
             var transaction = new Transaction
             {
                 ProviderId = plan.ProviderId,
@@ -163,32 +146,15 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             data.Add("status", "SUCCESS");
             data.Add("data", null);
 
-            if (request.PaymentCard == null || request.PaymentCard.Equals("") ||
-              request.FirstName == null || request.FirstName.Equals("") ||
-                request.LastName == null || request.LastName.Equals("") ||
-                request.PhoneNumber == null || request.PhoneNumber.Equals("")
+            if (request.PaymentCard.Equals("")
+                || request.FirstName.Equals("")
+                || request.LastName.Equals("")
+                || request.PhoneNumber.Equals("")
                 )
             {
                 data.Remove("status");
                 data.Add("status", "WARNING");
                 data.Add("message", "Field not null ! !");
-                return BadRequest(data);
-            }
-
-            bool paymentCardRegex = Regex.Match(request.PaymentCard, @"^[0-9]+$").Success;
-            bool phoneRegex = Regex.Match(request.PhoneNumber, @"(\+[0-9]{2}|\+[0-9]{2}\(0\)|\(\+[0-9]{2}\)\(0\)|00[0-9]{2}|0)([0-9]{9}|[0-9\-\s]{9,18})").Success;
-            if (paymentCardRegex == false)
-            {
-                data.Remove("status");
-                data.Add("status", "WARNING");
-                data.Add("message", "Payment card must be a number ! !");
-                return BadRequest(data);
-            }
-            if (phoneRegex == false)
-            {
-                data.Remove("status");
-                data.Add("status", "WARNING");
-                data.Add("message", "Phone number must be a number ! !");
                 return BadRequest(data);
             }
 
