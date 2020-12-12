@@ -8,19 +8,23 @@ import {
 import AuthWrapper from './components/AuthWrapper';
 
 import Layout from './pages/Layout';
+import FeedBack from './pages/FeedBack';
 
 import Home from './pages/Home';
 import Auth from './pages/Auth';
 import Dashboard from './pages/Dashboard';
+import Services from './pages/Services';
 import MyAccount from './pages/MyAccount';
 import ChangePassword from './pages/ChangePassword';
 import AddOrder from './pages/AddOrder';
 import Payment from './pages/Payment';
+import AboutUs from './pages/AboutUs';
+import Recharge from './pages/Recharge';
+import PostBillPayment from './pages/PostBillPayment';
 import NotFoundError from './pages/NotFoundError';
 
 import { routes } from './constants';
 import * as ActionTypes from './ActionTypes';
-import AboutUs from './pages/AboutUs';
 
 export default () => {
   const dispatch = useDispatch();
@@ -40,6 +44,8 @@ export default () => {
       <Switch>
         <Route exact path={routes.Index} component={Home} />
         <Route exact path={routes.AboutUs} component={AboutUs} />
+        <Route exact path={routes.PostBillPayment} component={PostBillPayment} />
+        <Route exact path={routes.Recharge} component={Recharge} />
         <Route
           path={routes.Auth}
           component={(props) => (
@@ -53,6 +59,13 @@ export default () => {
           <AuthWrapper
             childProps={props}
             component={<Dashboard {...props} />}
+          />
+        )} />
+
+        <Route exact path={routes.Services} component={(props) => (
+          <AuthWrapper
+            childProps={props}
+            component={<Services {...props} />}
           />
         )} />
 
@@ -85,6 +98,7 @@ export default () => {
         )} />
         <Route path="*" component={NotFoundError} />
       </Switch>
+      <FeedBack />
     </Layout>
   );
 };

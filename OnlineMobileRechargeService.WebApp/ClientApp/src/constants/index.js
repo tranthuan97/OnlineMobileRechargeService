@@ -4,9 +4,12 @@ export const localStorageKey = {
 
 export const routes = {
   Index: '/',
+  Recharge: '/recharge',
+  PostBillPayment: '/post-bill-payment',
   AboutUs: '/about-us',
   Auth: '/auth',
   Dashboard: '/dashboard',
+  Services: '/dashboard/services',
   MyAccount: '/dashboard/account',
   ChangePassword: '/dashboard/change-password',
   AddOrder: '/dashboard/add-order',

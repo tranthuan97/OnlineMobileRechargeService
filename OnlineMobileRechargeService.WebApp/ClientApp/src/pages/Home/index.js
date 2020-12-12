@@ -11,11 +11,6 @@ const Home = () => {
         <Container>
           <Row style={{ justifyContent: 'center' }}>
             <Typography.Title style={{ color: 'whitesmoke' }}>Worldwide mobile recharge: send credit and data to any phone</Typography.Title>
-            {/* <Dropdown overlay={dropdownList} trigger={['click']}>
-              <Button size="large" className="ant-dropdown-link">
-                {state.selectedCountry.dial_code} {state.selectedCountry.name}<DownOutlined />
-              </Button>
-            </Dropdown> */}
           </Row>
         </Container>
       </div>

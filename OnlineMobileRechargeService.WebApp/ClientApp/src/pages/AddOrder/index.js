@@ -12,7 +12,7 @@ const AddOrder = () => {
   const plans = useSelector((reduxState) => reduxState.orderState.plans)
 
   React.useEffect(() => {
-    dispatch({ type: ActionTypes.GET_ORDERS_PENDING })
+    dispatch({ type: ActionTypes.GET_PLANS_PENDING })
   }, [dispatch]);
 
   const onClickItem = React.useCallback((item) => (e) => {

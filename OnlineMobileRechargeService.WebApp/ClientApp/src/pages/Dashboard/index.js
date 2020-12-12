@@ -20,8 +20,8 @@ const columns = [
     key: 'service',
     title: 'Service',
     // dataIndex: 'service',
-    render: (text, record) => {
-      return `${record.vas.name} - ${record.provider.name}`;
+    render: (record) => {
+      return `${record.vas.plans[0]?.name} - ${record.provider.name}`;
     }
   },
   {
@@ -30,27 +30,35 @@ const columns = [
     dataIndex: 'price',
   },
   {
+    key: 'validity',
+    title: 'Validity',
+    // dataIndex: 'note',
+    render: (record) => {
+      return record.vas.plans[0]?.validate;
+    }
+  },
+  {
     key: 'payment-card',
     title: 'Payment Card',
     // dataIndex: 'note',
-    render: (text, record) => {
+    render: (record) => {
       return record.paymentCard;
     }
   },
   {
-    key: 'note',
-    title: 'Note',
-    // dataIndex: 'note',
-    render: (text, record) => {
-      return record.simType;
+    key: 'method',
+    title: 'Payment Method',
+    // dataIndex: 'method',
+    render: (record) => {
+      return record.simtype;
     }
   },
   {
     key: 'createdAt',
     title: 'Created At',
     // dataIndex: 'createdDate',
-    render: (text) => {
-      return moment(text).format('DD/MM/YYYY HH:mm');
+    render: (record) => {
+      return moment(record.createdDate).format('DD/MM/YYYY HH:mm');
     }
   },
 ];
@@ -85,7 +93,7 @@ const Dashboard = () => {
             style={{ alignItems: 'center', justifyContent: 'center' }}
             icon={<PlusCircleOutlined style={{ fontSize: 24, verticalAlign: 'middle', lineHeight: 0 }} />}
           >
-            Add order
+            Recharge
           </Button>
         </div>
       </Row>

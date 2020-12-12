@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Image } from 'antd';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,9 +13,11 @@ import {
   NavbarToggler,
 } from 'reactstrap';
 
+import FeedBack from './FeedBack';
+
+import { routes } from '../constants';
 import styles from './NavMenu.module.css';
 import * as ActionTypes from '../ActionTypes';
-import { routes } from '../constants';
 
 const NavMenu = () => {
   const dispatch = useDispatch();
@@ -32,30 +34,47 @@ const NavMenu = () => {
 
   const onLogout = React.useCallback(() => {
     dispatch({ type: ActionTypes.LOGOUT_PENDING });
-  }, [dispatch])
+  }, [dispatch]);
+
+  const onClickFeedback = React.useCallback(() => {
+    FeedBack.openModal();
+  }, []);
+
+  const isLoggedIn = token !== null;
 
   return (
     <header>
       <Navbar className={`${styles.boxShadow} navbar-expand-sm navbar-toggleable-sm border-bottom`} light>
         <Container>
-          <NavbarBrand tag={Link} to="/">
+          <NavbarBrand tag={Link} to={routes.Index}>
             <Image src="17910fbb516da033f97c.svg" preview={false} width={210} height={50} />
           </NavbarBrand>
           <NavbarToggler onClick={toggle} className="mr-2" />
           <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={state.isOpen} navbar>
             <ul className="navbar-nav flex-grow">
               <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
+                <NavLink tag={Link} className="text-dark" to={routes.PostBillPayment}>Post Bill Payment</NavLink>
               </NavItem>
-              {token === null && (
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to={routes.Auth}>Login</NavLink>
-                </NavItem>
+              {!isLoggedIn && (
+                <React.Fragment>
+                  <NavItem>
+                    <NavLink tag={Link} className="text-dark" to={routes.Recharge}>Recharge</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink tag={Link} className="text-dark" to={routes.Auth}>Login</NavLink>
+                  </NavItem>
+                </React.Fragment>
               )}
-              {token !== null && (
+              <NavItem>
+                <NavLink tag={Button} className={`${styles.buttonNoStyle} text-dark`} onClick={onClickFeedback}>Feedback</NavLink>
+              </NavItem>
+              {isLoggedIn && (
                 <React.Fragment>
                   <NavItem>
                     <NavLink tag={Link} className="text-dark" to={routes.Dashboard}>Dashboard</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink tag={Link} className="text-dark" to={routes.Services}>Services</NavLink>
                   </NavItem>
                   <NavItem>
                     <NavLink tag={Link} className="text-dark" to={routes.MyAccount}>My Account</NavLink>

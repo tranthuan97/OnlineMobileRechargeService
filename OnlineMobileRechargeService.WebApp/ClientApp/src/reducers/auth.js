@@ -54,12 +54,17 @@ export default (state = defaultState, action) => {
         loading: false,
       }
     case LOGIN_SUCCESS:
+      return {
+        ...state,
+        ready: true,
+        loading: false,
+      };
+
     case REGISTER_SUCCESS:
       return {
         ...state,
         ready: true,
         loading: false,
-        token: action.payload,
       };
 
     case GET_USER_INFO_SUCCESS:

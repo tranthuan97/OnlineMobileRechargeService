@@ -1,0 +1,39 @@
+.container {
+  padding: 14px;
+}
+.background {
+  padding: 100px 0px;
+  background-image: url('/add-order-header.jpg');
+  background-repeat: no-repeat;
+}
+.separator {
+  margin-bottom: 14px;
+}
+.cardContainer {
+  cursor: pointer;
+}
+.card {
+  width: 25%;
+  text-align: center;
+}
+.mr10 {
+  margin-right: 10px;
+}
+.mb10 {
+  margin-bottom: 20px;
+}
+.fitCard {
+  width: 100%;
+}
+.title {
+  font-size: 16px;
+}
+.cardGrid {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.methodImage {
+  width: 160px;
+}

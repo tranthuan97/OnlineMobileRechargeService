@@ -51,8 +51,6 @@ function* checkLocalStorage() {
   if (token) {
     dispatchModel.payload = token;
     dispatchModel.type = ActionTypes.CHECK_LOCAL_STORAGE_SUCCESS;
-  } else {
-    yield put(replace(routes.Auth));
   }
 
   yield put(dispatchModel);
@@ -112,10 +110,9 @@ function* registerPending(action) {
       description: 'Register successfully. You can login now!'
     });
 
-    yield all([
-      put({ type: ActionTypes.REGISTER_SUCCESS }),
-      put(replace(routes.Auth)),
-    ]);
+    yield put({ type: ActionTypes.REGISTER_SUCCESS });
+
+    window.location.replace(routes.Auth)
 
   } catch (error) {
     apiErrorHandler(error, ActionTypes.REGISTER_FAILED);

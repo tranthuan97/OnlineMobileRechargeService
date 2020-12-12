@@ -4,6 +4,7 @@ import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 
 import authState from '../reducers/auth';
 import orderState from '../reducers/order';
+import feedbackState from '../reducers/feedback';
 import transactionState from '../reducers/transaction';
 
 export const sagaMiddleware = createSagaMiddleware();
@@ -17,6 +18,7 @@ export default function configureStore(history, initialState) {
     const rootReducer = combineReducers({
         authState,
         orderState,
+        feedbackState,
         transactionState,
         router: connectRouter(history)
     });

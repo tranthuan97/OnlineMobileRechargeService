@@ -1,7 +1,7 @@
 import React from 'react';
 import { FiSmartphone } from "react-icons/fi";
 import { useDispatch, useSelector } from 'react-redux';
-import { Card, Col, Row, Typography, Image, Divider, Input, Form, Button } from 'antd';
+import { Card, Col, Row, Typography, Image, Divider, Input, Form, Button, Select } from 'antd';
 
 import styles from './styles.module.css';
 import * as ActionTypes from '../../ActionTypes';
@@ -12,16 +12,15 @@ const Payment = () => {
   const selectedPlan = useSelector((reduxState) => reduxState.orderState.selectedPlan);
 
   const user = useSelector((reduxState) => reduxState.authState.user);
-  console.log("🚀 ~ file: index.js ~ line 11 ~ Payment ~ user", user)
-  console.log("🚀 ~ file: index.js ~ line 10 ~ Payment ~ selectedPlan", selectedPlan)
 
   const [state, setState] = React.useState({
     email: '',
-    detailVisible: false,
+    detailVisible: null,
+    selectedPaymentMethod: 'Prepaid',
   });
 
-  const onClickPaymentMethod = React.useCallback(() => {
-    setState((prevState) => ({ ...prevState, detailVisible: true }));
+  const onClickPaymentAccount = React.useCallback((imageSource) => () => {
+    setState((prevState) => ({ ...prevState, detailVisible: imageSource }));
     setTimeout(() => {
       window.scrollTo({ top: 9999, behavior: 'smooth' });
     }, 250);
@@ -41,6 +40,7 @@ const Payment = () => {
     <div className={styles.container}>
       <Col span={16} offset={4}>
         <Form
+          layout="vertical"
           onFinish={onFinish}
           className={styles.fitCard}
         >
@@ -84,7 +84,7 @@ const Payment = () => {
               </Row>
             </Card>
           </Row>
-          <Row className={styles.mb10}>
+          {/* <Row className={styles.mb10}>
             <Card className={styles.fitCard}>
               <Row className={styles.mb10}>
                 <Typography.Title level={5}>Fill in your email address*</Typography.Title>
@@ -101,7 +101,7 @@ const Payment = () => {
                 </Form.Item>
               </Row>
             </Card>
-          </Row>
+          </Row> */}
           <Row className={styles.mb10}>
             <Card className={styles.fitCard}>
               <Row className={styles.mb10}>
@@ -111,66 +111,84 @@ const Payment = () => {
                 <Typography.Text>Thanks to our secure 256-bit SSL connection it's completely safe to pay!</Typography.Text>
               </Row>
               <Row>
-                <Card.Grid className={styles.cardGrid} onClick={onClickPaymentMethod}>
+                <Card.Grid className={styles.cardGrid} onClick={onClickPaymentAccount('/visa.jpg')}>
                   <Image src="/visa.jpg" preview={false} className={styles.methodImage} />
                 </Card.Grid>
-                <Card.Grid className={styles.cardGrid} onClick={onClickPaymentMethod}>
+                <Card.Grid className={styles.cardGrid} onClick={onClickPaymentAccount('/mastercard.png')}>
                   <Image src="/mastercard.png" preview={false} className={styles.methodImage} />
                 </Card.Grid>
-                <Card.Grid className={styles.cardGrid} onClick={onClickPaymentMethod}>
+                <Card.Grid className={styles.cardGrid} onClick={onClickPaymentAccount('/paypal.png')}>
                   <Image src="/paypal.png" preview={false} className={styles.methodImage} />
                 </Card.Grid>
               </Row>
             </Card>
           </Row>
-          {state.detailVisible && (
+          {state.detailVisible !== null && (
             <Row className={styles.mb10}>
               <Card className={styles.fitCard}>
-                <Row className={styles.mb10}>
+                <Row justify="space-between" className={styles.mb10}>
                   <Typography.Title level={5}>Fill in the required details</Typography.Title>
+                  <Image width={128} src={state.detailVisible} preview={false} />
                 </Row>
                 <Row className={styles.mb10}>
                   <Typography.Text>With these details, we can provide a secure payment.</Typography.Text>
                 </Row>
                 <Row>
+                  <Form.Item
+                    label="Payment Method"
+                    name="paymentMethod"
+                    initialValue="PREPAID"
+                  >
+                    <Select>
+                      <Select.Option value="PREPAID">Prepaid</Select.Option>
+                      <Select.Option value="POSTPAID">Postpaid</Select.Option>
+                    </Select>
+                  </Form.Item>
+                </Row>
+                <Row>
                   <div className={styles.fitCard}>
-                    <Row style={{ marginBottom: 0 }}>
+                    <Row justify="center">
+                      <Form.Item
+                        name="paymentCard"
+                        label="Payment Card"
+                        className={styles.fitCard}
+                        rules={[{ required: true, message: 'Payment card is required' }]}
+                      >
+                        <Input disabled={selectedPlan?.paymented} />
+                      </Form.Item>
+                    </Row>
+                    <Row>
                       <div style={{ width: 'calc(50% - 8px)' }}>
                         <Form.Item
                           name="firstname"
                           label="First name"
-                          rules={[{ required: true }]}
+                          rules={[{ required: true, message: 'First name is required' }]}
+                          initialValue={user.firstName}
                         >
-                          <Input placeholder="Your first name" />
+                          <Input disabled={selectedPlan?.paymented} placeholder="Your first name" />
                         </Form.Item>
                       </div>
                       <div style={{ width: 'calc(50% - 8px)', margin: '0 8px' }}>
                         <Form.Item
                           name="lastname"
                           label="Last name"
-                          rules={[{ required: true }]}
+                          rules={[{ required: true, message: 'Last name is required' }]}
+                          initialValue={user.lastName}
                         >
-                          <Input placeholder="Your first name" />
+                          <Input disabled={selectedPlan?.paymented} placeholder="Your first name" />
                         </Form.Item>
                       </div>
                     </Row>
-                    <Form.Item
-                      name="address"
-                      label="Address"
-                      rules={[{ required: true }]}
-                    >
-                      <Input placeholder="Your address" />
-                    </Form.Item>
-
                     <Row justify="center">
                       <Form.Item className={styles.fitCard}>
                         <Button block size="large" type="primary" htmlType="submit">
-                          Payment
-                    </Button>
+                          Recharge
+                      </Button>
                       </Form.Item>
                     </Row>
                   </div>
                 </Row>
+
               </Card>
             </Row>
           )}

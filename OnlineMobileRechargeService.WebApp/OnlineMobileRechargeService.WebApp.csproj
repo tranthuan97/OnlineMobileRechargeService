@@ -26,6 +26,10 @@
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+    <None Include="**/*" />
+    <None Include="$(SpaRoot)**" />
+    <None Include="**/*" />
+    <None Include="$(SpaRoot)**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +37,13 @@
     <ProjectReference Include="..\OnlineMobileRechargeService.Data\OnlineMobileRechargeService.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="obj\Debug\net5.0\Razor\Pages\_ViewImports.cshtml.g.cs" />
+    <None Remove="obj\Debug\net5.0\Razor\Pages\Error.cshtml.g.cs" />
+    <None Remove="obj\Debug\net5.0\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs" />
+    <None Remove="obj\Debug\net5.0\Razor\Pages\_ViewImports.cshtml.g.cs" />
+    <None Remove="obj\Debug\net5.0\Razor\Pages\Error.cshtml.g.cs" />
+  </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
     <Exec Command="node --version" ContinueOnError="true">
@@ -51,7 +62,7 @@
     <!-- Include the newly-built files in the publish output -->
     <ItemGroup>
       <DistFiles Include="$(SpaRoot)build\**; $(SpaRoot)build-ssr\**" />
-      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+      <ResolvedFileToPublish Include="@(DistFiles-&gt;'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
         <RelativePath>%(DistFiles.Identity)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>

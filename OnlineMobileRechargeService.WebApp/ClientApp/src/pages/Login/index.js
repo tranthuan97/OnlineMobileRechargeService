@@ -54,7 +54,7 @@ const Login = () => {
           <Image preview={false} src="/account-icon.png" />
         </Row> */}
         <Form.Item
-          label="Username"
+          label="Phone"
           name="username"
           rules={[
             {

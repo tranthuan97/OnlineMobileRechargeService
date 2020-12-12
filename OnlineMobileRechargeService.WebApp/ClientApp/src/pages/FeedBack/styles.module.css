@@ -1,0 +1,25 @@
+.container {
+  flex: 1;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+.title {
+  font-size: 17px;
+}
+.mr10 {
+  margin-right: 10px;
+}
+.mb30 {
+  margin-bottom: 30px;
+}
+.underline {
+  border-bottom: 2px solid #1890ff;
+}
+.underline:hover {
+  border-bottom: 2px solid #1890ff;
+}
+.underline:focus {
+  border-bottom: 2px solid #1890ff;
+}
