@@ -7,6 +7,7 @@ export const routes = {
   Recharge: '/recharge',
   PostBillPayment: '/post-bill-payment',
   AboutUs: '/about-us',
+  CustomerCare: '/customer-care',
   Auth: '/auth',
   Dashboard: '/dashboard',
   Services: '/dashboard/services',

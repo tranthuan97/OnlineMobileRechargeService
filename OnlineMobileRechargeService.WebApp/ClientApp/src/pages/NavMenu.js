@@ -52,13 +52,13 @@ const NavMenu = () => {
           <NavbarToggler onClick={toggle} className="mr-2" />
           <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={state.isOpen} navbar>
             <ul className="navbar-nav flex-grow">
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to={routes.PostBillPayment}>Post Bill Payment</NavLink>
-              </NavItem>
               {!isLoggedIn && (
                 <React.Fragment>
                   <NavItem>
-                    <NavLink tag={Link} className="text-dark" to={routes.Recharge}>Recharge</NavLink>
+                    <NavLink tag={Link} className="text-dark" to={routes.PostBillPayment}>Post Bill Payment</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink tag={Link} className="text-dark" to={routes.Recharge}>Online Recharge</NavLink>
                   </NavItem>
                   <NavItem>
                     <NavLink tag={Link} className="text-dark" to={routes.Auth}>Login</NavLink>
@@ -67,6 +67,9 @@ const NavMenu = () => {
               )}
               <NavItem>
                 <NavLink tag={Button} className={`${styles.buttonNoStyle} text-dark`} onClick={onClickFeedback}>Feedback</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={Link} className="text-dark" to={routes.CustomerCare}>CustomerCare</NavLink>
               </NavItem>
               {isLoggedIn && (
                 <React.Fragment>

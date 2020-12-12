@@ -30,5 +30,7 @@ export const apiErrorHandler = (error, failedActionType) => {
     dispatchModel.type = ActionTypes.LOGOUT_PENDING;
   }
 
-  store.dispatch(dispatchModel);
+  if (dispatchModel.type) {
+    store.dispatch(dispatchModel);
+  }
 };

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OnlineMobileRechargeService.Application.ViewModels.Transactions;
 using OnlineMobileRechargeService.Data.EF;
 using OnlineMobileRechargeService.Data.Entities;
 
@@ -76,8 +78,30 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
         // POST: api/PBPTransactions
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<PBPTransaction>> PostPBPTransaction(PBPTransaction pBPTransaction)
+        public async Task<ActionResult<PBPTransaction>> PostPBPTransaction([FromBody] PBPRequest request)
         {
+            Dictionary<string, Object> data = new Dictionary<string, object>();
+            data.Add("status", "SUCCESS");
+            data.Add("data", null);
+
+            bool regex = Regex.Match(request.PhoneNumber, @"(\+[0-9]{2}|\+[0-9]{2}\(0\)|\(\+[0-9]{2}\)\(0\)|00[0-9]{2}|0)([0-9]{9}|[0-9\-\s]{9,18})").Success;
+
+            if (regex == false)
+            {
+                data.Remove("status");
+                data.Add("status", "WARNING");
+                data.Add("message", "Phone number must be a number and at lest 9 characters !");
+
+                return BadRequest(data);
+            }
+
+            PBPTransaction pBPTransaction = new PBPTransaction
+            {
+                CreatedDate = DateTime.Now,
+                PhoneNumber = Int32.Parse(request.PhoneNumber),
+                Price = Int32.Parse(request.Price),
+            };
+
             _context.PBPTransactions.Add(pBPTransaction);
             await _context.SaveChangesAsync();
 

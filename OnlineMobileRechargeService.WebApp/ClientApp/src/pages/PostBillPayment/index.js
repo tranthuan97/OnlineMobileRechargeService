@@ -1,7 +1,9 @@
 import React from 'react';
 import { Button, Card, Form, Image, Input, notification, Row, Typography } from 'antd';
 
+import axios from '../../utils/axios';
 import styles from './styles.module.css';
+import { apiErrorHandler } from '../../utils';
 
 const PostBillPayment = () => {
   const [form] = Form.useForm();
@@ -11,22 +13,30 @@ const PostBillPayment = () => {
     selectedPlan: null
   });
 
-  const onFinish = React.useCallback(() => {
-    setState((prevState) => ({ ...prevState, loading: true }))
-  }, []);
+  const onFinish = React.useCallback(async (values) => {
+    try {
+      setState((prevState) => ({ ...prevState, loading: true }))
 
-  React.useEffect(() => {
-    if (state.loading) {
-      setTimeout(() => {
-        notification.success({
-          message: 'Success',
-          description: 'Post bill payment successfully!',
-        });
-        form.resetFields();
-        setState((prevState) => ({ ...prevState, loading: false }))
-      }, 1000);
+      await axios.post('/pbptransactions', {
+        FirstName: values.firstname,
+        LastName: values.lastname,
+        PhoneNumber: values.phone,
+        Price: values.paymentPrice,
+        PaymentCard: values.paymentCard,
+      });
+
+      notification.success({
+        message: 'Success',
+        description: 'Post bill payment successfully!',
+      });
+
+      form.resetFields();
+    } catch (error) {
+      apiErrorHandler(error);
     }
-  }, [state.loading]);
+
+    setState((prevState) => ({ ...prevState, loading: false }))
+  }, []);
 
   const onClickPaymentMethod = React.useCallback((imageSource) => () => {
     setState((prevState) => ({
@@ -41,7 +51,6 @@ const PostBillPayment = () => {
   return (
     <Row justify="center" className={styles.container}>
       <Form
-
         form={form}
         style={{ width: '40%' }}
         layout="vertical"
@@ -95,6 +104,18 @@ const PostBillPayment = () => {
                     label="Payment Card"
                     className={styles.fitCard}
                     rules={[{ required: true, message: 'Payment card is required' }]}
+                  >
+                    <Input
+                      disabled={state.loading || !state.selectedPlan?.method}
+                    />
+                  </Form.Item>
+                </Row>
+                <Row justify="center">
+                  <Form.Item
+                    name="paymentPrice"
+                    label="Payment Price"
+                    className={styles.fitCard}
+                    rules={[{ required: true, message: 'Payment price is required' }]}
                   >
                     <Input
                       disabled={state.loading || !state.selectedPlan?.method}

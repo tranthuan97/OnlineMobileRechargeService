@@ -19,26 +19,26 @@ const Footer = () => {
               <Link to={routes.AboutUs} className={styles.link}>About Us</Link>
             </Row>
             {/* <Row>
-              <Link to="/" className={styles.link}>Payment methods</Link>
+              <Link to={routes.Index} className={styles.link}>Payment methods</Link>
             </Row> */}
           </Col>
           <Col flex={1}>
             <Row>
-              <Link to="/" className={styles.link}>Frequently asked questions</Link>
+              <Link to={routes.Index} className={styles.link}>Frequently asked questions</Link>
             </Row>
             <Row>
-              <Link to="/" className={styles.link}>Safety</Link>
+              <Link to={routes.Index} className={styles.link}>Safety</Link>
             </Row>
           </Col>
           <Col flex={1}>
             <Row>
-              <Link to="/" className={styles.link}>Privacy policy</Link>
+              <Link to={routes.Index} className={styles.link}>Privacy policy</Link>
             </Row>
             <Row>
-              <Link to="/" className={styles.link}>General conditions</Link>
+              <Link to={routes.Index} className={styles.link}>General conditions</Link>
             </Row>
             <Row>
-              <Link to="/" className={styles.link}>Cookie statement</Link>
+              <Link to={routes.Index} className={styles.link}>Cookie statement</Link>
             </Row>
           </Col>
         </Row>

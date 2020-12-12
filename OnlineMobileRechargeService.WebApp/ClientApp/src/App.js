@@ -21,6 +21,7 @@ import Payment from './pages/Payment';
 import AboutUs from './pages/AboutUs';
 import Recharge from './pages/Recharge';
 import PostBillPayment from './pages/PostBillPayment';
+import CustomerCare from './pages/CustomerCare';
 import NotFoundError from './pages/NotFoundError';
 
 import { routes } from './constants';
@@ -46,6 +47,7 @@ export default () => {
         <Route exact path={routes.AboutUs} component={AboutUs} />
         <Route exact path={routes.PostBillPayment} component={PostBillPayment} />
         <Route exact path={routes.Recharge} component={Recharge} />
+        <Route exact path={routes.CustomerCare} component={CustomerCare} />
         <Route
           path={routes.Auth}
           component={(props) => (
