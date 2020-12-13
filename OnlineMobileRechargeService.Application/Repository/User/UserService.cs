@@ -52,8 +52,9 @@ namespace OnlineMobileRechargeService.Application.Repository.User
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                    new Claim(ClaimTypes.Name, user.Id.ToString()),
+                    new Claim(ClaimTypes.Name, user.Username),
                     new Claim(ClaimTypes.Role, user.Role),
+                    new Claim(ClaimTypes.DateOfBirth, user.Id.ToString()),
                     new Claim("Id", user.Id.ToString()),
                     new Claim("Role", user.Role),
                     }),

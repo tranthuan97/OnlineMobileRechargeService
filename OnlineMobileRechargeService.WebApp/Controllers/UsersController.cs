@@ -37,6 +37,12 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             _dbContext = dbContext;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var users = await _userService.GetAll();
+            return Ok(users);
+        }
 
         [AllowAnonymous]
         [HttpPost("Authenticate")]
@@ -193,7 +199,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             data.Add("status", "SUCCESS");
             data.Add("data", null);
 
-            var claim = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Name, StringComparison.InvariantCultureIgnoreCase));
+            var claim = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.DateOfBirth, StringComparison.InvariantCultureIgnoreCase));
             if (claim == null)
             {
                 data.Remove("status");
@@ -223,7 +229,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             data.Add("status", "SUCCESS");
             data.Add("data", null);
 
-            var claim = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Name, StringComparison.InvariantCultureIgnoreCase));
+            var claim = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.DateOfBirth, StringComparison.InvariantCultureIgnoreCase));
             //if (claim == null)
             //{
             //    data.Remove("status");
@@ -254,7 +260,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             data.Add("status", "SUCCESS");
             data.Add("data", null);
 
-            var claim = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Name, StringComparison.InvariantCultureIgnoreCase));
+            var claim = User.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.DateOfBirth, StringComparison.InvariantCultureIgnoreCase));
 
             var user = await _userService.ChangePassword(Int32.Parse(claim.Value), appUser);
 
@@ -283,14 +289,6 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             return Ok(data);
         }
 
-
-        [HttpGet]
-        [Authorize(Roles = AppRole.Admin)]
-        public async Task<IActionResult> GetAll()
-        {
-            var users = await _userService.GetAll();
-            return Ok(users);
-        }
 
         [HttpPost("GetById")]
         public async Task<IActionResult> GetById([FromBody] AppUser appUser)
