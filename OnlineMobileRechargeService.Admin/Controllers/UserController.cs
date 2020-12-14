@@ -89,7 +89,7 @@ namespace OnlineMobileRechargeService.Admin.Controllers
             var userPrincipal = this.validateTokent(t.GetValue("data").ToString());
             var authProperties = new AuthenticationProperties
             {
-                ExpiresUtc = DateTimeOffset.Now.AddSeconds(10),
+                ExpiresUtc = DateTimeOffset.Now.AddMinutes(30),
                 IsPersistent = false
             };
 

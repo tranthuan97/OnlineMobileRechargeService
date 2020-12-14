@@ -32,13 +32,16 @@ namespace OnlineMobileRechargeService.Admin.Services
 
             client.BaseAddress = new Uri("https://localhost:5001");
             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + sessions);
-            var response = await client.GetAsync("api/Transactions/getall");
+            var response = await client.GetAsync("api/transactions/getall");
             var body = await response.Content.ReadAsStringAsync();
 
-            var users = JsonConvert.DeserializeObject<List<Transaction>>(body);
+            //var users = JsonConvert.DeserializeObject<List<Transaction>>(body);
+
+            var objResponse1 =
+    JsonConvert.DeserializeObject<List<Transaction>>(body);
 
             //var users = JsonConvert.DeserializeObject<List<Transaction>>(body);
-            return users;
+            return objResponse1;
         }
     }
 }

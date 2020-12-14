@@ -28,7 +28,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
 
         // GET: api/Transactions
 
-        [HttpGet("/getall")]
+        [HttpGet("getall")]
         public async Task<ActionResult<AppUser>> GetAll()
         {
             var users = await _context.Transactions.ToListAsync();

@@ -40,7 +40,7 @@ namespace OnlineMobileRechargeService.Admin
 
             services.AddSession(option =>
             {
-                option.IdleTimeout = TimeSpan.FromDays(30);
+                option.IdleTimeout = TimeSpan.FromMinutes(30);
             });
 
 
