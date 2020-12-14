@@ -58,6 +58,7 @@ export default (state = defaultState, action) => {
         ...state,
         ready: true,
         loading: false,
+        token: action.payload,
       };
 
     case REGISTER_SUCCESS:

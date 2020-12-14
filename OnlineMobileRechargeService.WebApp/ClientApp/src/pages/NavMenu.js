@@ -68,9 +68,9 @@ const NavMenu = () => {
               <NavItem>
                 <NavLink tag={Button} className={`${styles.buttonNoStyle} text-dark`} onClick={onClickFeedback}>Feedback</NavLink>
               </NavItem>
-              <NavItem>
+              {/* <NavItem>
                 <NavLink tag={Link} className="text-dark" to={routes.CustomerCare}>CustomerCare</NavLink>
-              </NavItem>
+              </NavItem> */}
               {isLoggedIn && (
                 <React.Fragment>
                   <NavItem>
