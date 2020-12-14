@@ -40,7 +40,7 @@ namespace OnlineMobileRechargeService.Admin
 
             services.AddSession(option =>
             {
-                option.IdleTimeout = TimeSpan.FromSeconds(10);
+                option.IdleTimeout = TimeSpan.FromDays(30);
             });
 
 
@@ -49,6 +49,7 @@ namespace OnlineMobileRechargeService.Admin
 
             ////config api
             services.AddTransient<IUserApiClient, UserApiClient>();
+            services.AddTransient<ITransactionApiClient, TransactionApiClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
