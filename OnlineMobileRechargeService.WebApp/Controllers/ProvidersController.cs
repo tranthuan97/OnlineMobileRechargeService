@@ -78,6 +78,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult<Provider>> PostProvider(Provider provider)
         {
+            
             _context.Providers.Add(provider);
             await _context.SaveChangesAsync();
 

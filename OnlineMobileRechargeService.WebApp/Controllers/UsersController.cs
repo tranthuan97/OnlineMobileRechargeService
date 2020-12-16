@@ -37,6 +37,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             _dbContext = dbContext;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {

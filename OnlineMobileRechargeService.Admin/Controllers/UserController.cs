@@ -11,6 +11,7 @@ using Newtonsoft.Json.Linq;
 using OnlineMobileRechargeService.Admin.Services;
 using OnlineMobileRechargeService.Application.Helpers;
 using OnlineMobileRechargeService.Application.ViewModels.Users;
+using OnlineMobileRechargeService.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -35,14 +36,11 @@ namespace OnlineMobileRechargeService.Admin.Controllers
 
 
         // GET: UsersController
-        [Authorize]
+        [Authorize(Roles = AppRole.Admin)]
         public async Task<ActionResult> Index()
         {
             var session = HttpContext.Session.GetString("Token");
-            Console.WriteLine("get duoc token: ", session);
             var request = await _userApiClient.GetAllUsers(session);
-            Console.WriteLine(request);
-
 
             return View(request);
         }
@@ -61,7 +59,7 @@ namespace OnlineMobileRechargeService.Admin.Controllers
 
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            return RedirectToAction("Login","User");
+            return RedirectToAction("Login", "User");
         }
 
         [HttpPost]
@@ -84,9 +82,9 @@ namespace OnlineMobileRechargeService.Admin.Controllers
 
             //var token = (string)t.SelectToken("data");
 
-            Console.WriteLine("token here: " + t.GetValue("data").ToString());
 
             var userPrincipal = this.validateTokent(t.GetValue("data").ToString());
+            Console.WriteLine("userPrincipal: ", userPrincipal);
             var authProperties = new AuthenticationProperties
             {
                 ExpiresUtc = DateTimeOffset.Now.AddMinutes(30),
@@ -100,14 +98,13 @@ namespace OnlineMobileRechargeService.Admin.Controllers
                     userPrincipal,
                     authProperties);
 
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
 
 
         private ClaimsPrincipal validateTokent(string token)
         {
 
-            Console.WriteLine("day la token: ", token);
             IdentityModelEventSource.ShowPII = true;
 
             var key = Encoding.ASCII.GetBytes(_configuration["AppSettings:Secret"]);

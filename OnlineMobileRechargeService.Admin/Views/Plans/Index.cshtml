@@ -1,13 +1,17 @@
-﻿@model IEnumerable<OnlineMobileRechargeService.Data.Entities.Transaction>
+﻿@model IEnumerable<OnlineMobileRechargeService.Data.Entities.Plan>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
 <div class="card mb-4">
     <div class="card-header">
         <i class="fas fa-table mr-1"></i>
-        Transactions
+        Plans
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -18,25 +22,25 @@
                             @Html.DisplayNameFor(model => model.Id)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.ProviderId)
+                            @Html.DisplayNameFor(model => model.Name)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.UserId)
+                            @Html.DisplayNameFor(model => model.ProviderId)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.VASId)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Simtype)
+                            @Html.DisplayNameFor(model => model.Amount)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Price)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.PaymentCard)
+                            @Html.DisplayNameFor(model => model.Validate)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.CreatedDate)
+                            @Html.DisplayNameFor(model => model.Description)
                         </th>
                         <th></th>
                     </tr>
@@ -49,30 +53,30 @@
                                 @Html.DisplayFor(modelItem => item.Id)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.ProviderId)
+                                @Html.DisplayFor(modelItem => item.Name)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.UserId)
+                                @Html.DisplayFor(modelItem => item.ProviderId)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.VASId)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Simtype)
+                                @Html.DisplayFor(modelItem => item.Amount)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Price)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.PaymentCard)
+                                @Html.DisplayFor(modelItem => item.Validate)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.CreatedDate)
+                                @Html.DisplayFor(modelItem => item.Description)
                             </td>
                             <td>
-                                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                @Html.ActionLink("Delete", "Delete", "Plans", new { id = item.Id }, new { onclick = "return confirm('Are you sure to delete this record?');" })
                             </td>
                         </tr>
                     }

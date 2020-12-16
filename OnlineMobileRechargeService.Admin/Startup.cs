@@ -38,6 +38,7 @@ namespace OnlineMobileRechargeService.Admin
                    options.AccessDeniedPath = "/User/Forbidden/";
                });
 
+
             services.AddSession(option =>
             {
                 option.IdleTimeout = TimeSpan.FromMinutes(30);
@@ -50,6 +51,9 @@ namespace OnlineMobileRechargeService.Admin
             ////config api
             services.AddTransient<IUserApiClient, UserApiClient>();
             services.AddTransient<ITransactionApiClient, TransactionApiClient>();
+            services.AddTransient<IProviderApiClient, ProviderApiClient>();
+            services.AddTransient<IVASApiClient, VASApiClient>();
+            services.AddTransient<IPlanApiClient, PlanApiClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -55,8 +55,6 @@ namespace OnlineMobileRechargeService.Application.Repository.User
                     new Claim(ClaimTypes.Name, user.Username),
                     new Claim(ClaimTypes.Role, user.Role),
                     new Claim(ClaimTypes.DateOfBirth, user.Id.ToString()),
-                    new Claim("Id", user.Id.ToString()),
-                    new Claim("Role", user.Role),
                     }),
                     Expires = DateTime.UtcNow.AddDays(30),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

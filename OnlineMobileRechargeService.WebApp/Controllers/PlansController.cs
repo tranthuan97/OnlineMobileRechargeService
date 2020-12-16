@@ -23,6 +23,93 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             _context = context;
         }
 
+        [HttpGet("get")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<Plan>>> GetAll()
+        {
+            return  await _context.Plans.ToListAsync();
+
+        }
+
+        // GET: api/Plans/5
+        [HttpGet("{id}/get")]
+        [AllowAnonymous]
+        public async Task<ActionResult<Plan>> Get(int id)
+        {
+            var plan = await _context.Plans.FindAsync(id);
+
+            if (plan == null)
+            {
+                return NotFound();
+            }
+
+            return plan;
+        }
+
+        // PUT: api/Plans/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}/put")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Put(int id, Plan plan)
+        {
+            if (id != plan.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(plan).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!PlanExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        // POST: api/Plans
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost("post")]
+        [AllowAnonymous]
+        public async Task<ActionResult<Plan>> Post(Plan plan)
+        {
+            _context.Plans.Add(plan);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetPlan", new { id = plan.Id }, plan);
+        }
+
+        // DELETE: api/Plans/5
+        [HttpDelete("{id}/delete")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var plan = await _context.Plans.FindAsync(id);
+            if (plan == null)
+            {
+                return NotFound();
+            }
+
+            _context.Plans.Remove(plan);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+
+/* ----------------------------------------------------------------- */
+
         // GET: api/Plans
         [HttpGet]
         [AllowAnonymous]
@@ -34,10 +121,10 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
             data.Add("data", null);
 
             var listPlans = await _context.Plans
-                .Include(x=>x.Provider)
-                .Include(x=>x.VAS)
+                .Include(x => x.Provider)
+                .Include(x => x.VAS)
                 .ToListAsync();
-            
+
             data.Remove("data");
             data.Add("message", "Get data is success ! !");
             data.Add("data", listPlans);

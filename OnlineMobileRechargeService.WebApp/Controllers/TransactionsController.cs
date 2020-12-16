@@ -27,7 +27,7 @@ namespace OnlineMobileRechargeService.WebApp.Controllers
         }
 
         // GET: api/Transactions
-
+        [AllowAnonymous]
         [HttpGet("getall")]
         public async Task<ActionResult<AppUser>> GetAll()
         {
